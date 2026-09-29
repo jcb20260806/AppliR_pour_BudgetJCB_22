@@ -1,0 +1,14 @@
+"0","ToutPourVerif<-select(Q2,OriType,MONTANT,AnReel,MoisAbs,MoisReel,PBM,TType,TLib)
+ToutPourVerif1<-filter(ToutPourVerif, AnReel>=YearFrom)
+ToutPourVerif2 <- ToutPourVerif1 %>% group_by(AnReel, MoisReel,PBM,OriType) %>% summarise_at(vars(MONTANT), sum)
+pt <- PivotTable$new()
+pt$addData(ToutPourVerif2)
+pt$addColumnDataGroups(""AnReel"")
+pt$addColumnDataGroups(""MoisReel"")
+pt$addRowDataGroups(""PBM"")
+pt$addRowDataGroups(""OriType"")
+pt$defineCalculation(calculationName=""MONTANT"", summariseExpression=""sum(MONTANT/100)"",format= ""%.2f"")
+pt$renderPivot()
+"
+"2","
+"

@@ -1,0 +1,37 @@
+library(dplyr)
+library(plyr)
+library(DBI)
+library(RSQLite)
+library(pivottabler)
+#install.packages("ggplot2")
+
+#install.packages("pracma")
+#install.packages('pander')
+#install.packages('htmlwidgets')
+#install.packages("magick")
+#install.packages("pivottabler")
+#install.packages("magick")
+install.packages("kableExtra")
+#install.packages("systemfonts")
+#install.packages("tidyr")
+#install.packages("tidyverse")
+
+install.packages("systemfonts")
+#install.packages("plotly")
+#library(reshape2)
+#library(tidyr)
+#library(dplyr)   # Pour la manipulation des données
+library(ggplot2) # Pour la visualisation des données
+#library(pracma)
+#library(pander)
+#library(kableExtra)
+#library(gridExtra)
+#library(magick)
+
+#webshot::install_phantomjs()
+#install.packages("rjson")
+library(rjson)
+#library(tidyverse)
+library(plotly)
+library(htmlwidgets)
+

@@ -1,0 +1,649 @@
+---
+title: "`r paste('Comptes Tilff Chateau Evolution',format(Sys.time(), '%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+author: "jcb"
+date: " `r paste('Document créé le 8/10/2020, mis à jour le ',format(Sys.time(), '%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+Fichier: `r get(env = parent.frame(n = 8), 'input')`  
+
+CWD: `r getwd()`  
+
+```{r setup, include=FALSE, eval=FALSE,results='hide',message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format = "html")
+```
+```{r Librairies, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+# Extractions des Mouvemenst de l'Année
+#install.packages(arsenal)
+library(arsenal)
+source(paste("./jcbRModules/jcbRLib.R"))
+source(paste("./jcbRModules/jcbGetMvtReel.R"))
+source(paste("./jcbRModules/jcbGetMvtReelBarBar.R"))
+source(paste("./jcbRModules/jcbGetDictOfTiers.R"))
+
+source(paste("./jcbRModules/jcbGetAllDec.R"))
+source(paste("./jcbRModules/jcbGetAllSPA.R"))
+
+source(paste("./jcbRModules/jcbGetAllHCC.R"))
+source(paste("./jcbRModules/jcbGetAllQuot.R"))
+source(paste("./jcbRModules/jcbGetAllHCG.R"))
+source(paste("./jcbRModules/jcbGetSCF_2020.R"))
+source(paste("./jcbRModules/jcbGetAllHCCBar.R"))
+
+jcbPivot<-function(parDF,parRow,parCol,parVal){
+  pt <- PivotTable$new()
+pt$addData(parDF)
+pt$addColumnDataGroups(parCol,addTotal=TRUE)
+pt$addRowDataGroups(parRow,addTotal=TRUE)
+pt$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+return(pt)}
+
+```
+<head>
+<style type="text/css">
+div {
+    page-break-before: always
+    page-break-after: always
+    padding:15px;
+    border-bottom:5px solid red;
+    margin-bottom:15px;}
+</style>
+</head>
+
+
+
+
+```{r Get All Needed Data And Unify, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+DictOfTiers<-jcbGetDictOfTiers("../Python/HCG/DictOfTiers.json")
+# Extractions des Mouvements de la db
+#
+MvtReelAll<-jcbGetMvtReel()
+MvtReelBarBar<-jcbGetMvtReelBarBar()
+
+Dec_All<-jcbGetDecAll("../Python/Dec")
+SPA_All<-jcbGetSPAAll("../Python/SPA")
+
+HCC_All<-jcbGetHCCAll("../Python/HCC")
+Quot_All<-jcbGetQuotAll("../Python/Quot")
+
+HCG_All<-jcbGetHCGAll("../Python/HCG")
+SCF_2020<-jcbGetSCF2020("../Python/SCF")
+
+HCC_Bar<-jcbGetHCCAllBar("../Python/HCC_Bar_All")
+AnReel<-c(2018,2019,2020)
+Prov<-c(1750,7000,7000)
+Prov_Tot<-data.frame(AnReel,Prov)
+```
+
+
+On affiche HCG par Code et on vérifie les montant avec le document Limmo  
+Totaux ok si : -1250.53	-10010.40	-7771.68  
+On constate qu' il y a une erreur d' encodage de "Nettoyage", on corrige
+
+```{r Afficher HCG_All, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+ptHCG<-jcbPivot(HCG_All,"Code.Lib","AnReel")
+t1<-ptHCG$renderPivot()
+ptHCGT<-jcbPivot(HCG_All,"Tiers","AnReel")
+#t2<-ptHCGT$renderPivot()
+HCG_All$Code<-ifelse(HCG_All$Tiers!="NETTOYAG",as.character(HCG_All$Code),"A01")
+HCG_All$Code.Tiers<-ifelse(HCG_All$Tiers!="NETTOYAG",as.character(HCG_All$Code.Tiers),"A01-NETTOYAG")
+HCG_All$Code.Lib<-ifelse(HCG_All$Tiers!="NETTOYAG",as.character(HCG_All$Code.Lib),"A01-Nettoyage")
+HCG_All$Lib<-ifelse(HCG_All$Tiers!="NETTOYAG",as.character(HCG_All$Code.Tiers),"Nettoyage")
+ptHCG<-jcbPivot(HCG_All,"Code.Lib","AnReel")
+t3<-ptHCG$renderPivot()
+```
+
+<html>
+    <table style="width: 100%" border="1" page-break-before: always>
+    <tbody>
+    <tr>
+    <td>HCG</td>
+    <td>HCG Corrigé</td>
+    </tr>
+    <tr>
+    <td>`r t1`</td>
+    <td>`r t3`</td>
+    </tr>
+    </tbody>
+    </table>
+    <p><br><br> </p>
+   
+
+
+
+```{r Zoom sur A04, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+ptHCG_All_A04<-jcbPivot(HCG_All[substr(HCG_All$Code.Tiers,1,3)=="A04",],"Code.Tiers","AnReel")
+ptA04<-ptHCG_All_A04$renderPivot()
+```
+<table style="width: 100%" border="1" page-break-before: always>
+<tbody>
+<tr>
+<td>On constate que la rubrique A04 est plus importante en 2018 qu' en 2020, on la détaille</td>
+</tr>
+<tr>
+<td>`r ptA04`</td>
+<td>La différence s' explique par une consommation d' électricité importante en 2019<br>
+et sans doute des acomptes surestimés, <br>
+ainsi que la nécessité de remplacer les serrures et les clés suite à un cambriolage
+</td>
+</tr> 
+</tbody>
+</table>
+<p><br><br> </p>
+
+
+```{r Charges Privatives, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+ptHCG_CP<-jcbPivot(HCG_All[HCG_All$Code=="A10",],"Commentaire","AnReel")
+ptCP<-ptHCG_CP$renderPivot()
+```
+
+<table style="width: 100%" border="1">
+  <tbody>
+    <tr>
+      <td>Charges privatives: Code A10</td>
+    </tr>
+    <tr>
+      <td>`r ptCP`</td>
+      <td>Les charges privatives sont réclamées aux propriétaires à la cloture annuelles des comptes<br>
+      à vérifier dans les factures!</td>
+    </tr> 
+  </tbody>
+</table>
+<p><br> </p>
+
+
+```{r Analyse des Couts, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+HCG_Com1<-HCG_All[HCG_All$Code!="A10",]
+ptHCG_Com1<-jcbPivot(HCG_Com1,"Code.Lib","AnReel")
+ptCC<-ptHCG_Com1$renderPivot()
+HCG_Com1A<-aggregate(HCG_Com1$MontantE, by=list(AnReel=HCG_Com1$AnReel,Code=HCG_Com1$Code), FUN=sum)
+HCG_Com1A$M<- -HCG_Com1A$x
+bp<- ggplot(HCG_Com1A, aes(x=HCG_Com1A$AnReel, y=HCG_Com1A$M, fill=HCG_Com1A$Code))+
+geom_bar(width = 1, stat = "identity")
+ggsave("./png/myplot.png")
+
+```
+
+<table style="width: 100%" border="1">
+    <tbody>
+      <tr>
+        <td>Evolutions des Charges Communes: Charges Privatives Exclues ( A10 )</td>
+      </tr>
+      <tr>
+        <td>`r ptCC`</td>
+        <td><img src="./png/myplot.png"></td>
+      </tr>
+  </tbody>
+</table>
+<p><br> </p>
+
+
+
+
+```{r Analyse des Paiements Fournisseurs, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+MvtReelFour<-MvtReelAll[(MvtReelAll$Four==TRUE & MvtReelAll$AnReel>2015),]
+MvtReelFour$Code<-substr(MvtReelFour$PouF,1,3)
+pt1 <- PivotTable$new()
+pt1$addData(MvtReelFour)
+pt1$addColumnDataGroups("AnReel",addTotal=FALSE)
+pt1$addRowDataGroups("PouF")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptMvt<-pt1$renderPivot()
+```
+
+<table style="width: 100%" border="1">
+  <tbody>
+    <tr>
+      <td>Analyse des Mouvements Fournisseurs sur Belfius ( MvtReel )</td>
+    </tr>
+    <tr>
+      <td>`r ptMvt`</td>
+      <td> A99 correspond à des mouvements non repris dans HCG, quels sont-ils?</td>
+    </tr> 
+  </tbody>
+</table>
+<p><br> </p>
+
+
+```{r Détailler mvt A99, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+pt1 <- PivotTable$new()
+pt1$addData(MvtReelFour[MvtReelFour$Code=="A99",])
+pt1$addColumnDataGroups("AnReel",addTotal=FALSE)
+pt1$addRowDataGroups("Libelle")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptA99<-pt1$renderPivot()
+```
+<table style="width: 100%" border="1">
+  <tbody>
+    <tr>
+      <td>Mouvements A99</td>
+    </tr>
+    <tr>
+      <td>`r ptA99`</td>
+      <td> Ces mouvements ne se retrouvent pas dans HCG ni dans SCF car pas de Tiers.<br>
+            Ils disparaissent au moment du left_join de HCG avec MvtReel.<br>
+            Selon les explications de L.Malaise, les 200Euros de différence couvrent les 150Euros de prestations que LimmoGerance                 réclame pour traiter ce dossier.</td>
+    </tr> 
+  </tbody>
+</table>
+<p><br><br></p>
+
+On essaye de reconstituer les soldes des comptes fournisseurs
+
+```{r Soldes des Comptes Fournisseurs ZENITO devient KLINKENB, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+# ZENITO de vien KLINKENB dans MvtReelFour et HCG_Com1 et on ne prend que <2021F
+MvtReelFour<-MvtReelFour[MvtReelFour$AnReel<2021,]
+MvtReelFour$Tiers<-ifelse(MvtReelFour$Tiers=="ZENITO","KLINKENB",MvtReelFour$Tiers)
+HCG_All_C<-HCG_All
+HCG_All_C$Tiers<-ifelse(HCG_All_C$Tiers=="ZENITO","KLINKENB",HCG_All_C$Tiers)
+# Autres Corrections
+HCG_All_C$Tiers<-ifelse(HCG_All_C$Document=="20.011","MARICHAL",HCG_All_C$Tiers)
+HCG_All_C<-HCG_All_C[HCG_All_C$Tiers!="zNoTiers",]
+
+
+MvtReelFourbyT<-aggregate(MvtReelFour$MontantE, by=list(Tiers=MvtReelFour$Tiers), FUN=sum)
+HCG_All_C_byT<-aggregate(HCG_All_C$MontantE, by=list(Tiers=HCG_All_C$Tiers), FUN=sum)
+
+#HCG_All_byT$AnReel<-as.character((HCG_All_byT$AnReel))
+#HCG_AllbyYbyAxx$Code<-substr(HCG_AllbyYbyAxx$Code,1,3)
+SoldeFour<-left_join(HCG_All_C_byT, MvtReelFourbyT, by = c("Tiers"))
+SoldeFour$x.x[is.na(SoldeFour$x.x)] <- 0
+SoldeFour$x.y[is.na(SoldeFour$x.y)] <- 0
+SoldeFour$Solde<--SoldeFour$x.x+SoldeFour$x.y
+
+pt<-PivotTable$new()
+pt$addData(SoldeFour)
+#ptSF$addColumnDataGroups("AnReel",addTotal=TRUE)
+pt$addRowDataGroups("Tiers")
+
+pt$defineCalculation(calculationName="Solde",
+                     summariseExpression="sum(Solde, na.rm=FALSE)",format="%.2f")
+ptSF<-pt$renderPivot()
+```
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>Soldes des Comptes Tiers/Fournisseurs Réconstitués via HCG et MvtReel</td>
+    </tr>
+    <tr>
+      <td>`r ptSF`</td>
+      <td>J' ai créé un "Tiers" Banque pour loger les Frais Bancaires.<br>  
+          On considère que ZENITO et KLINKENB sont KLINKENB, on convertit. <br> 
+          On constate que la valve livrée par Marichal est marquée avec Tiers égal à DIVERS dans HCG,<br>on remplace par MARICHAL.<br> <br>
+          zNoTiers correspond à un montant qui sera récupéré via la cloture, donc invisible dans MvtReel, on les a supprimés.<br> <br>
+          On doit ce qui est positif et on nous doit ce qui est négatif. </td>
+    </tr> 
+  </tbody>
+</table>
+<p><br><br></p>
+
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>Qu' y a-t-il dans NoTiers</td>
+    </tr>
+    <tr>
+      <td>`r HCG_All[ HCG_All$Tiers=="zNoTiers",c(1:8)]%>%kable(format = "html", escape = F) %>%
+          kable_styling("striped", full_width = F,position = "float_left") %>% returnValue`</td>
+    </tr> 
+  </tbody>
+</table>
+<p><br><br> </p>
+
+```{r Compare with SCF, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+SS<-left_join(SoldeFour, SCF_2020, by = c("Tiers"))
+ SST<-SS[c(1,4,5)]
+ SST$MontantE<-ifelse(is.na(SST$MontantE),0,SST$MontantE)
+ KS<-SST %>%mutate( MontantE=cell_spec(SST$MontantE, "html", color = ifelse(SST$MontantE > 0, "red", "blue"), background = ifelse(SST$MontantE > 0, "yellow", ""))) %>%
+mutate( Solde=cell_spec(round(SST$Solde, digits = 3), "html", color = ifelse(SST$Solde > 0, "red", "blue"), background = ifelse(SST$Solde > 0,"yellow", "")))%>%
+mutate( Tiers=cell_spec(SST$Tiers, "html", color = ifelse(abs(SST$Solde-SST$MontantE)>0.02, "red", "blue"), background = ifelse(abs(SST$Solde-SST$MontantE)>0.02,"yellow", "")))%>%
+   
+  kable(format = "html", escape = F) %>%
+    kable_styling("striped", full_width = F,position = "float_right") %>% returnValue()
+```
+
+<table style="width: 100%" border="3">
+    <tbody>
+      <tr>
+        <td>On compare avec SCF</td>
+      </tr>
+      <tr>
+        <td>`r KS`</td>
+        <td>Solde est mon calcul( HCG et MvtReel ),<br>
+        MontantE vient de SCF pour MontantE,<br>
+        En rouge ce que nous devons.<br>
+        NA signifie que le tiers n existe pas<br> NA a été mis à zéro<br>
+        La différence LIMMOGER est une facture de LIMMOGER, non encore payée, qui ne se retrouve pas dans HCG mais bien dans les copies/scan des factures, elle serait financée par AGInsurances dans le cadre du sinistre payé à di Bella ( voir les 200Euros ci-dessus)</td>
+      </tr> 
+    </tbody>
+  </table>
+  <p>
+  <br>
+  </p>
+ 
+On examine les différences si il y en a!
+
+
+Examen de la Trésorerie
+
+```{r Soldes des Comptes Fournisseurs DIVERS et zNoTiers, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+hc<-HCG_All_C[HCG_All_C$Tiers=="DIVERS" | HCG_All_C$Tiers=="zNoTiers",]
+hc<-hc[,c(1:8)]
+kD<-hc%>%kable(format = "html", escape = F) %>%
+    kable_styling("striped", full_width = F,position = "float_left") %>% returnValue
+
+kM1<-MvtReelFour[MvtReelFour$Tiers=="DIVERS" ,c(1:6)]%>%kable(format = "html", escape = F) %>%
+    kable_styling("striped", full_width = F,position = "float_left") %>% returnValue
+kM2<-HCG_All_C[ HCG_All_C$Tiers=="LIMMOGER",c(1:8)]%>%kable(format = "html", escape = F) %>%
+    kable_styling("striped", full_width = F,position = "float_left") %>% returnValue
+```
+
+```{r Evolution du Solde Belfius, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+MvtReelSolde<-jcbGetMvtReel()                 #[(MvtReelAll$AnReel==2020),]
+# add running sum
+Soldes<-aggregate(MvtReelSolde$MontantE, by=list(DateVal=MvtReelSolde$DateVal), FUN=sum)
+Soldes<-Soldes%>%mutate(CumSoldes=cumsum(x))
+Soldes<-  Soldes[-c(Soldes$DateVal<as.Date("2018/09/01")),]
+  #a<-nrow(DF)
+  #b<-a-Ndays
+  #Last14<-DF[b:a,]
+  PTres<-ggplot() + 
+    geom_line(data = Soldes, aes(DateVal, CumSoldes, color = "Solde"), size = .5) +
+    geom_hline(yintercept=200)+
+    #geom_line(data = Last14, aes(Date, -Hout, color = "Sorties"), size = .5) + 
+    #geom_line(data = Last14, aes(Date, HinMoy7, color = "EntréesMoy/7jours"), size = .5) +
+    scale_x_date(breaks = "year")+# , labels=date_format("%Y-%m-%d"))+
+    scale_color_manual(name = "Légende",  values = c("Solde" = "red"))+  #, "Sorties" = "blue","EntréesMoy/7jours"="red"))+
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  ggsave("./png/Tresorerie.png")
+  #labs(y = "Nombre\n", x = "\nJour depuis Confinement",title = paste("Covid-19 Hin,Hout ",Ndays," Derniers Jours\n")
+ 
+```
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Trésorerie: Evolution du Solde du Compte Belfius
+      </td>
+      </tr>
+      <tr>
+        <td><img src="./png/Tresorerie.png"></td>
+    <td>
+        On constate que de nombreuses fois en 2019 et 2020 le solde du compte a été tellement bas que des domiciliations sont refusées et que LIMMOGER a dû prendre en charge des paiements et se faire rembourser en fin d exercices;<br>Cela s' explique par le fait qu' en 2019 les frais réels ont été largement supérieurs aux appels de charges 7000Euros).<br> la situation semble s être améliorée en 2021.<br>à suivre.
+      </td>
+      </tr>
+  </tbody>
+</table>
+  <p><br><br></p>
+
+Examen des Comptes-Clients
+
+Vérification du Compte Bar
+
+```{r Création de la Pivot Table Mouvements Client/CoPro Bar, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+MvtReelBar<-MvtReelAll[(MvtReelAll$Four==FALSE & MvtReelAll$AnReel>2015 & MvtReelAll$AnReel<2021 & MvtReelAll$PouF=="BAR"),]
+MvtReelBar$Pro<-substr(MvtReelBar$PouF,1,3)
+pt1 <- PivotTable$new()
+pt1$addData(MvtReelBar)
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+pt1$addRowDataGroups("Pro")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptMvtBar<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+
+```
+```{r Création de la Pivot Table  B10 Bar, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+pt1 <- PivotTable$new()
+pt1$addData(HCC_Bar[HCC_Bar$Journal=="B10",])
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+pt1$addRowDataGroups("Pro")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptB10Bar<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+
+```
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Versements Effectués sur Belfius par Bar depuis l' origine de la Copropriété 
+      </td>
+      <td>
+        Versements Enregistrés dans la Comptabilité de la Copropriété ( B10 dans Dec )
+      </td>     <td>
+        Versements Effectuées à Partir du Compte BarBar
+      </td>
+      </tr>
+      <tr>
+        <td>`r ptMvtBar`</td>
+        <td>`r ptB10Bar`</td>
+        <td>`r ptB10Bar`</td>
+      </tr>
+  </tbody>
+</table>
+  <p><br><br></p>
+
+Examen Global
+
+```{r Création de la Pivot Table Mouvements Client/CoPro, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+MvtReel<-MvtReelAll[(MvtReelAll$Four==FALSE & MvtReelAll$AnReel>2015 & MvtReelAll$AnReel<2021),]
+MvtReel$Pro<-substr(MvtReel$PouF,1,3)
+pt1 <- PivotTable$new()
+pt1$addData(MvtReel)
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+pt1$addRowDataGroups("Pro")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptMvtReel<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+
+```
+```{r Création de la Pivot Table  Dec B10, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+pt1 <- PivotTable$new()
+pt1$addData(Dec_All[Dec_All$Journal=="B10",])
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+
+pt1$addRowDataGroups("Pro")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptDecB10<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+
+```
+```{r Création de la Pivot Table  HCC B10, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+pt1 <- PivotTable$new()
+pt1$addData(HCC_All[HCC_All$Journal=="B10",])
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+
+pt1$addRowDataGroups("Pro")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptHCCB10<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+```
+
+```{r Création de la Pivot Table  SPA, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+pt1 <- PivotTable$new()
+pt1$addData(SPA_All)
+pt1$addColumnDataGroups("AnReel",addTotal=TRUE)
+
+pt1$addRowDataGroups("Proprio")
+pt1$defineCalculation(calculationName="MontantE",
+                     summariseExpression="sum(MontantE, na.rm=FALSE)",format="%.2f")
+ptSPA<-pt1$renderPivot()
+#`r pt1$evaluatePivot()`
+
+```
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Versements Effectués sur Belfius par Coprpriétaire depuis l' origine de la Copropriété 
+      </td>
+      <td>
+        Versements Repris dans les Dec communiqués dans les Décomptes ( B10 )
+        </td>
+        <td>
+        Versements Repris dans HCC ( B10 )
+        </td>
+      </tr>
+      <tr>
+        <td>`r ptMvtReel`</td>
+        <td>`r ptDecB10`</td>
+        <td>`r ptHCCB10`</td>
+      </tr>
+      <tr>
+        
+        <td>On constate des différences pour AD Réalisations et Bodson.<br>
+        Ces différences s' expliquent par le fait qu' il n' y a pas de Décomptes pour ces lots car ils ont été vendus.</td>
+        <td>On n' a pas ces différences avec HCC</td>
+      </tr>
+  </tbody>
+</table>
+<p><br><br></p>
+
+
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Soldes Périodes Antérieures 
+      </td>
+      
+      </tr>
+      <tr>
+        
+        <td>`r ptSPA`</td>
+        
+      </tr>
+     
+  </tbody>
+</table>
+<p><br><br></p>
+```{r Factures, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+HCC_All$Debit<-as.numeric(gsub(",",".",HCC_All$Debit))
+HCC_All$Credit<-as.numeric(gsub(",",".",HCC_All$Credit))
+Bal_HCC<-aggregate(cbind(Debit,Credit,MontantE) ~ AnReel+Pro, data = HCC_All, FUN = sum, na.rm = TRUE)
+# Solde Avant Cloture
+SoldeAvantCloture<-HCC_All[str_detect(HCC_All$Commentaire,"clo", negate = TRUE),]
+SAC_All<-aggregate(cbind(Debit,Credit,MontantE) ~ AnReel+Pro, data =SoldeAvantCloture, FUN = sum, na.rm = TRUE)
+
+                  
+
+
+# SAC_All ne reprend que les appels et les versements, il faut ajouter les soldes de la période antérieure
+SPA_All2<-aggregate(SPA_All$MontantE, by=list(AnReel=as.numeric(SPA_All$AnReel),Pro=SPA_All$Pro), FUN=sum)
+SAC_All2<-left_join(SAC_All,SPA_All2,by=c("AnReel","Pro")) 
+SAC_All2$SAC<--SAC_All2$MontantE-SAC_All2$x
+# Frais Commun par An
+HCG_Com1AparAn<-aggregate(HCG_Com1$MontantE, by=list(AnReel=HCG_Com1$AnReel), FUN=sum)
+Step1<-left_join(SAC_All2,Prov_Tot,by=c("AnReel")) # on ajoute les provision golbale
+names(Step1)[3]<-"SAC"
+# On calcule les quotités par Pro
+QuotparProparAn<-aggregate(Quot_All$Quot,by=list(AnReel=as.numeric(Quot_All$AnReel),Pro=Quot_All$Pro), FUN=sum)
+# on accole les Quotités"
+Step2<-left_join(Step1,QuotparProparAn,by=c("AnReel","Pro"))
+names(Step2)[5]<-"Quot"
+Step2$Quot<-ifelse(is.na(Step2$Quot),0,Step2$Quot)
+# on ajoute les frais communs globaux
+Step3<-left_join(Step2,HCG_Com1AparAn,by=c("AnReel"))
+# on répartit les frais communs
+Step3$MTAP<-round(-Step3$x*Step2$Quot/1000,digits=2)
+# on répartit les provisions
+Step3$PCR<-round(Step3$Prov*Step2$Quot/1000,digits=2)
+# on calcule le SeCReMA
+Step3$SeCReMA<-Step3$PCR-Step3$MTAP
+Step3$MTF<--Step3$PCR+Step3$MTAP
+# on calcule le Solde avant cloture
+Step3$STaP<-Step3$MTF+Step3$SAC
+Step3<-subset(Step3, select=-c(x))
+Step3Table<-Step3%>%kable(format = "html", escape = F) %>%
+kable_styling("striped", full_width = F,position = "float_left",font_size = 10) %>% returnValue
+
+
+Fact_All<-Quot_All%>% group_by(Pro,AnReel) %>%
+
+  summarise(MTAP = sum(MTAP),PCR = sum(PCR),MTF=sum(MTF),STaP = sum(STaP),SAC = sum(SAC),)
+
+
+
+
+
+FactTable<-Fact_All%>%kable(format = "html", escape = F) %>%
+kable_styling("striped", full_width = F,position = "float_left",font_size = 10) %>% returnValue
+
+Compa_All<-left_join(Step3,Fact_All,by=c("AnReel","Pro"))
+CompaTable<-Compa_All%>%kable(format = "html", escape = F) %>%
+kable_styling("striped", full_width = F,position = "float_left",font_size = 10) %>% returnValue
+
+#a<-summary(comparedf(Step3, Fact_All,by=c("AnReel","Pro")))
+# ckeck MTAP
+```
+```{r Compa, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+Compa_All$ChkMTAP<-round(Compa_All$MTAP.x-Compa_All$MTAP.y,1)
+Compa_All$ChkPCR<-round(Compa_All$PCR.x+Compa_All$PCR.y,1)
+Compa_All$ChkMTF<-round(Compa_All$MTF.x-Compa_All$MTF.y,1)
+Compa_All$SAC<-round(Compa_All$SAC.x+Compa_All$SAC.y,1)
+Compa_All$STaP<-round(Compa_All$STaP.x+Compa_All$STaP.y,1)
+Compa_Dur<-Compa_All[Compa_All$Pro=='DUR',]
+
+
+
+
+```
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Calcul de l' appel de cloture par An 
+      </td>
+       <td>
+        Check avec Décompte.pdf 
+      </td>
+      /tr>
+      <tr>
+        <td>`r CompaTable`</td>
+      
+      
+      
+      </tr>
+      <tr>
+        
+        <td>On constate des différences pour AD Réalisations et Bodson.<br>
+        Ces différences s' expliquent par le fait qu' il n' y a pas de Décomptes pour ces lots car ils ont été vendus.</td>
+        <td>On n' a pas ces différences avec HCC</td>
+      </tr>
+  </tbody>
+</table>
+<p><br><br></p>
+
+
+<table style="width: 100%" border="3">
+  <tbody>
+    <tr>
+      <td>
+        Soldes Périodes Antérieures 
+      </td>
+      
+      </tr>
+      <tr>
+        
+        <td>`r ptSPA`</td>
+        
+      </tr>
+     
+  </tbody>
+</table>
+<p><br><br></p>
+

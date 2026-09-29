@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jcb" />
+
+
+<title>Rapport Alix 30/11/2021 .</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+
+<script src="site_libs/pivottabler-binding-1.5.3/pivottabler.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Rapport Alix 30/11/2021 .</h1>
+<h4 class="author">jcb</h4>
+
+</div>
+
+
+<p>Fichier: Rapport_A_La_Energie_v2021-08-01.Rmd</p>
+<p>CWD: /mnt/INPG0721/0-P3-Budget/Budget-DataBase-Paral/BudgetJCB/R-BudgetJCB</p>
+<div id="htmlwidget-3c0348e4a66da5b36725" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3c0348e4a66da5b36725">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\" colspan=\"2\">2020<\/th>\n    <th class=\"ColumnHeader\" colspan=\"10\">2021<\/th>\n    <th class=\"ColumnHeader\">Total<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"ColumnHeader\">11<\/th>\n    <th class=\"ColumnHeader\">12<\/th>\n    <th class=\"ColumnHeader\">1<\/th>\n    <th class=\"ColumnHeader\">2<\/th>\n    <th class=\"ColumnHeader\">3<\/th>\n    <th class=\"ColumnHeader\">4<\/th>\n    <th class=\"ColumnHeader\">5<\/th>\n    <th class=\"ColumnHeader\">6<\/th>\n    <th class=\"ColumnHeader\">7<\/th>\n    <th class=\"ColumnHeader\">8<\/th>\n    <th class=\"ColumnHeader\">9<\/th>\n    <th class=\"ColumnHeader\">10<\/th>\n    <th class=\"ColumnHeader\">&nbsp;<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Abonnement Proximus<\/th>\n    <td class=\"Cell\">-93.79<\/td>\n    <td class=\"Cell\">-107.86<\/td>\n    <td class=\"Cell\">-110.56<\/td>\n    <td class=\"Cell\">-110.56<\/td>\n    <td class=\"Cell\">-109.74<\/td>\n    <td class=\"Cell\">-109.74<\/td>\n    <td class=\"Cell\">-108.92<\/td>\n    <td class=\"Cell\">-107.28<\/td>\n    <td class=\"Cell\">-110.56<\/td>\n    <td class=\"Cell\">-107.28<\/td>\n    <td class=\"Cell\">-108.10<\/td>\n    <td class=\"Cell\">-110.56<\/td>\n    <td class=\"Total\">-1294.95<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Achat Pellets<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-31.92<\/td>\n    <td class=\"Cell\">-39.90<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-19.95<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-23.70<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-115.47<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Assurance Ambulatoire<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-221.91<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-221.91<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-221.91<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-221.91<\/td>\n    <td class=\"Total\">-887.64<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Assurance Hospitalisation<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-1194.43<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-1194.43<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Assurance Incendie Maison<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-865.37<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-865.37<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Assurance RC Petite Voiture<\/th>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Cell\">-46.86<\/td>\n    <td class=\"Total\">-559.35<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Charges Appart<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-162.89<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-15.73<\/td>\n    <td class=\"Cell\">-1278.50<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-90.92<\/td>\n    <td class=\"Total\">-1548.04<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Contributions/Impots<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-1992.90<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-707.66<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-2700.56<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Eau<\/th>\n    <td class=\"Cell\">-142.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-251.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-251.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-644.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Electricite<\/th>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-159.23<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Cell\">-164.54<\/td>\n    <td class=\"Total\">-1921.02<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Entretien Petite Voiture<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-48.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-337.99<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-385.99<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Mazout<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-601.14<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-882.81<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-1483.95<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Mutuelle<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Total\">-135.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Piscine Frais Recurrents<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-208.53<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-15.69<\/td>\n    <td class=\"Cell\">-66.50<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-290.72<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Taxe Urbaine<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-165.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-165.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">-430.15<\/td>\n    <td class=\"Total\">-935.28<\/td>\n    <td class=\"Total\">-1926.16<\/td>\n    <td class=\"Total\">-513.29<\/td>\n    <td class=\"Total\">-2333.99<\/td>\n    <td class=\"Total\">-1475.34<\/td>\n    <td class=\"Total\">-2058.35<\/td>\n    <td class=\"Total\">-318.68<\/td>\n    <td class=\"Total\">-641.31<\/td>\n    <td class=\"Total\">-659.88<\/td>\n    <td class=\"Total\">-2230.52<\/td>\n    <td class=\"Total\">-668.54<\/td>\n    <td class=\"Total\">-14191.49<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-44cbf045feff09f0e5d1" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44cbf045feff09f0e5d1">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\" colspan=\"2\">2020<\/th>\n    <th class=\"ColumnHeader\" colspan=\"10\">2021<\/th>\n    <th class=\"ColumnHeader\">Total<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"ColumnHeader\">11<\/th>\n    <th class=\"ColumnHeader\">12<\/th>\n    <th class=\"ColumnHeader\">1<\/th>\n    <th class=\"ColumnHeader\">2<\/th>\n    <th class=\"ColumnHeader\">3<\/th>\n    <th class=\"ColumnHeader\">4<\/th>\n    <th class=\"ColumnHeader\">5<\/th>\n    <th class=\"ColumnHeader\">6<\/th>\n    <th class=\"ColumnHeader\">7<\/th>\n    <th class=\"ColumnHeader\">8<\/th>\n    <th class=\"ColumnHeader\">9<\/th>\n    <th class=\"ColumnHeader\">10<\/th>\n    <th class=\"ColumnHeader\">&nbsp;<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Loyer Appart 2ch<\/th>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">1600.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">1600.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">1600.00<\/td>\n    <td class=\"Total\">10400.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Loyer Appart 3ch<\/th>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">1925.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Cell\">950.00<\/td>\n    <td class=\"Total\">12125.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Loyer Parking 11<\/th>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Total\">975.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Loyer Parking 12<\/th>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Total\">900.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Loyer Parking 8<\/th>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Total\">825.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Pension Legale<\/th>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">3279.28<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2243.36<\/td>\n    <td class=\"Cell\">2243.36<\/td>\n    <td class=\"Total\">27699.63<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">4142.36<\/td>\n    <td class=\"Total\">4217.36<\/td>\n    <td class=\"Total\">4939.13<\/td>\n    <td class=\"Total\">3264.13<\/td>\n    <td class=\"Total\">4139.13<\/td>\n    <td class=\"Total\">5089.13<\/td>\n    <td class=\"Total\">5254.28<\/td>\n    <td class=\"Total\">4189.13<\/td>\n    <td class=\"Total\">4189.13<\/td>\n    <td class=\"Total\">5064.13<\/td>\n    <td class=\"Total\">3343.36<\/td>\n    <td class=\"Total\">5093.36<\/td>\n    <td class=\"Total\">52924.63<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+<table style="width: 100%" border="1">
+<tbody>
+<tr>
+<td>
+—
+</td>
+</tr>
+<tr>
+<td>
+—
+</td>
+<td>
+—
+</td>
+</tr>
+</tbody>
+</table>
+<p>
+<br>
+</p>
+<p>pt &lt;-</p>
+<div id="htmlwidget-1575032733aa85c3585f" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1575032733aa85c3585f">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\" colspan=\"2\">2020<\/th>\n    <th class=\"ColumnHeader\" colspan=\"10\">2021<\/th>\n    <th class=\"ColumnHeader\">Total<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"ColumnHeader\">11<\/th>\n    <th class=\"ColumnHeader\">12<\/th>\n    <th class=\"ColumnHeader\">1<\/th>\n    <th class=\"ColumnHeader\">2<\/th>\n    <th class=\"ColumnHeader\">3<\/th>\n    <th class=\"ColumnHeader\">4<\/th>\n    <th class=\"ColumnHeader\">5<\/th>\n    <th class=\"ColumnHeader\">6<\/th>\n    <th class=\"ColumnHeader\">7<\/th>\n    <th class=\"ColumnHeader\">8<\/th>\n    <th class=\"ColumnHeader\">9<\/th>\n    <th class=\"ColumnHeader\">10<\/th>\n    <th class=\"ColumnHeader\">&nbsp;<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">af<\/th>\n    <td class=\"Cell\">-701.83<\/td>\n    <td class=\"Cell\">-1582.87<\/td>\n    <td class=\"Cell\">-3420.60<\/td>\n    <td class=\"Cell\">-1939.38<\/td>\n    <td class=\"Cell\">-4132.50<\/td>\n    <td class=\"Cell\">-2235.05<\/td>\n    <td class=\"Cell\">-2946.13<\/td>\n    <td class=\"Cell\">-1896.83<\/td>\n    <td class=\"Cell\">-2281.52<\/td>\n    <td class=\"Cell\">-3025.98<\/td>\n    <td class=\"Cell\">-4070.73<\/td>\n    <td class=\"Cell\">-2303.44<\/td>\n    <td class=\"Total\">-30536.86<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">av<\/th>\n    <td class=\"Cell\">-448.63<\/td>\n    <td class=\"Cell\">-1388.19<\/td>\n    <td class=\"Cell\">-615.44<\/td>\n    <td class=\"Cell\">-272.18<\/td>\n    <td class=\"Cell\">-487.33<\/td>\n    <td class=\"Cell\">-2229.36<\/td>\n    <td class=\"Cell\">-1159.59<\/td>\n    <td class=\"Cell\">-950.56<\/td>\n    <td class=\"Cell\">-1803.18<\/td>\n    <td class=\"Cell\">-1132.83<\/td>\n    <td class=\"Cell\">-1026.71<\/td>\n    <td class=\"Cell\">-823.90<\/td>\n    <td class=\"Total\">-12337.90<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">b<\/th>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-350.00<\/td>\n    <td class=\"Cell\">-515.97<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-400.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Cell\">-100.00<\/td>\n    <td class=\"Total\">-2165.97<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">be<\/th>\n    <td class=\"Cell\">1925.00<\/td>\n    <td class=\"Cell\">2000.00<\/td>\n    <td class=\"Cell\">2725.00<\/td>\n    <td class=\"Cell\">887.11<\/td>\n    <td class=\"Cell\">1925.00<\/td>\n    <td class=\"Cell\">1959.27<\/td>\n    <td class=\"Cell\">696.50<\/td>\n    <td class=\"Cell\">1975.00<\/td>\n    <td class=\"Cell\">1975.00<\/td>\n    <td class=\"Cell\">2850.00<\/td>\n    <td class=\"Cell\">1100.00<\/td>\n    <td class=\"Cell\">2759.08<\/td>\n    <td class=\"Total\">22776.96<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">c<\/th>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">3279.28<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2214.13<\/td>\n    <td class=\"Cell\">2243.36<\/td>\n    <td class=\"Cell\">2243.36<\/td>\n    <td class=\"Total\">27699.63<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">2891.90<\/td>\n    <td class=\"Total\">896.30<\/td>\n    <td class=\"Total\">387.12<\/td>\n    <td class=\"Total\">789.68<\/td>\n    <td class=\"Total\">-580.70<\/td>\n    <td class=\"Total\">-391.01<\/td>\n    <td class=\"Total\">-229.94<\/td>\n    <td class=\"Total\">1241.74<\/td>\n    <td class=\"Total\">-295.57<\/td>\n    <td class=\"Total\">805.32<\/td>\n    <td class=\"Total\">-1854.08<\/td>\n    <td class=\"Total\">1775.10<\/td>\n    <td class=\"Total\">5435.86<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e6e0a66ab779c6ec7ba9" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e6e0a66ab779c6ec7ba9">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\">479<\/th>\n    <th class=\"ColumnHeader\">480<\/th>\n    <th class=\"ColumnHeader\">481<\/th>\n    <th class=\"ColumnHeader\">482<\/th>\n    <th class=\"ColumnHeader\">483<\/th>\n    <th class=\"ColumnHeader\">484<\/th>\n    <th class=\"ColumnHeader\">485<\/th>\n    <th class=\"ColumnHeader\">486<\/th>\n    <th class=\"ColumnHeader\">487<\/th>\n    <th class=\"ColumnHeader\">488<\/th>\n    <th class=\"ColumnHeader\">489<\/th>\n    <th class=\"ColumnHeader\">490<\/th>\n    <th class=\"ColumnHeader\">491<\/th>\n    <th class=\"ColumnHeader\">492<\/th>\n    <th class=\"ColumnHeader\">493<\/th>\n    <th class=\"ColumnHeader\">494<\/th>\n    <th class=\"ColumnHeader\">495<\/th>\n    <th class=\"ColumnHeader\">496<\/th>\n    <th class=\"ColumnHeader\">497<\/th>\n    <th class=\"ColumnHeader\">498<\/th>\n    <th class=\"ColumnHeader\">499<\/th>\n    <th class=\"ColumnHeader\">500<\/th>\n    <th class=\"ColumnHeader\">501<\/th>\n    <th class=\"ColumnHeader\">502<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">&nbsp;<\/th>\n    <td class=\"Cell\">-3123.16<\/td>\n    <td class=\"Cell\">934.42<\/td>\n    <td class=\"Cell\">-1750.93<\/td>\n    <td class=\"Cell\">339.62<\/td>\n    <td class=\"Cell\">-182.19<\/td>\n    <td class=\"Cell\">1492.71<\/td>\n    <td class=\"Cell\">2520.16<\/td>\n    <td class=\"Cell\">-442.70<\/td>\n    <td class=\"Cell\">77.98<\/td>\n    <td class=\"Cell\">1134.34<\/td>\n    <td class=\"Cell\">548.36<\/td>\n    <td class=\"Cell\">-5121.68<\/td>\n    <td class=\"Cell\">2891.90<\/td>\n    <td class=\"Cell\">896.30<\/td>\n    <td class=\"Cell\">387.12<\/td>\n    <td class=\"Cell\">789.68<\/td>\n    <td class=\"Cell\">-580.70<\/td>\n    <td class=\"Cell\">-391.01<\/td>\n    <td class=\"Cell\">-229.94<\/td>\n    <td class=\"Cell\">1241.74<\/td>\n    <td class=\"Cell\">-295.57<\/td>\n    <td class=\"Cell\">805.32<\/td>\n    <td class=\"Cell\">-1854.08<\/td>\n    <td class=\"Cell\">1775.10<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1859f5b10b8132688654" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1859f5b10b8132688654">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\">479<\/th>\n    <th class=\"ColumnHeader\">480<\/th>\n    <th class=\"ColumnHeader\">481<\/th>\n    <th class=\"ColumnHeader\">482<\/th>\n    <th class=\"ColumnHeader\">483<\/th>\n    <th class=\"ColumnHeader\">484<\/th>\n    <th class=\"ColumnHeader\">485<\/th>\n    <th class=\"ColumnHeader\">486<\/th>\n    <th class=\"ColumnHeader\">487<\/th>\n    <th class=\"ColumnHeader\">488<\/th>\n    <th class=\"ColumnHeader\">489<\/th>\n    <th class=\"ColumnHeader\">490<\/th>\n    <th class=\"ColumnHeader\">491<\/th>\n    <th class=\"ColumnHeader\">492<\/th>\n    <th class=\"ColumnHeader\">493<\/th>\n    <th class=\"ColumnHeader\">494<\/th>\n    <th class=\"ColumnHeader\">495<\/th>\n    <th class=\"ColumnHeader\">496<\/th>\n    <th class=\"ColumnHeader\">497<\/th>\n    <th class=\"ColumnHeader\">498<\/th>\n    <th class=\"ColumnHeader\">499<\/th>\n    <th class=\"ColumnHeader\">500<\/th>\n    <th class=\"ColumnHeader\">501<\/th>\n    <th class=\"ColumnHeader\">502<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">&nbsp;<\/th>\n    <td class=\"Cell\">-21007.50<\/td>\n    <td class=\"Cell\">-18810.81<\/td>\n    <td class=\"Cell\">-16574.07<\/td>\n    <td class=\"Cell\">-14439.39<\/td>\n    <td class=\"Cell\">-12573.57<\/td>\n    <td class=\"Cell\">-10785.33<\/td>\n    <td class=\"Cell\">-9110.58<\/td>\n    <td class=\"Cell\">-7600.55<\/td>\n    <td class=\"Cell\">-6047.63<\/td>\n    <td class=\"Cell\">-4613.19<\/td>\n    <td class=\"Cell\">-3291.83<\/td>\n    <td class=\"Cell\">-2225.15<\/td>\n    <td class=\"Cell\">-1049.38<\/td>\n    <td class=\"Cell\">-108.40<\/td>\n    <td class=\"Cell\">749.77<\/td>\n    <td class=\"Cell\">1506.94<\/td>\n    <td class=\"Cell\">1904.62<\/td>\n    <td class=\"Cell\">2104.98<\/td>\n    <td class=\"Cell\">2172.09<\/td>\n    <td class=\"Cell\">2104.90<\/td>\n    <td class=\"Cell\">2036.62<\/td>\n    <td class=\"Cell\">2033.50<\/td>\n    <td class=\"Cell\">1919.44<\/td>\n    <td class=\"Cell\">1865.07<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+<p><img src="Rapport_A_La_Energie_v2021-08-01_files/figure-html/Phase%204%20Rolling%20Mean-3.png" width="672" /></p>
+<pre class="r"><code>byPBM</code></pre>
+<table>
+<caption>
+Data frame is now printed using <code>kable</code>.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+MoisAbs
+</th>
+<th style="text-align:right;">
+MontantE
+</th>
+<th style="text-align:right;">
+CumSoldes
+</th>
+<th style="text-align:right;">
+Dec
+</th>
+<th style="text-align:right;">
+S
+</th>
+<th style="text-align:right;">
+Mnt_03da
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+47
+</td>
+<td style="text-align:right;">
+479
+</td>
+<td style="text-align:right;">
+-3123.16
+</td>
+<td style="text-align:right;">
+-93649.49
+</td>
+<td style="text-align:right;">
+-94495.92
+</td>
+<td style="text-align:right;">
+846.43
+</td>
+<td style="text-align:right;">
+-21007.5037
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+48
+</td>
+<td style="text-align:right;">
+480
+</td>
+<td style="text-align:right;">
+934.42
+</td>
+<td style="text-align:right;">
+-92715.07
+</td>
+<td style="text-align:right;">
+-97013.71
+</td>
+<td style="text-align:right;">
+4298.64
+</td>
+<td style="text-align:right;">
+-18810.8063
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+49
+</td>
+<td style="text-align:right;">
+481
+</td>
+<td style="text-align:right;">
+-1750.93
+</td>
+<td style="text-align:right;">
+-94466.00
+</td>
+<td style="text-align:right;">
+-99396.29
+</td>
+<td style="text-align:right;">
+4930.29
+</td>
+<td style="text-align:right;">
+-16574.0729
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+482
+</td>
+<td style="text-align:right;">
+339.62
+</td>
+<td style="text-align:right;">
+-94126.38
+</td>
+<td style="text-align:right;">
+-98504.66
+</td>
+<td style="text-align:right;">
+4378.28
+</td>
+<td style="text-align:right;">
+-14439.3921
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+51
+</td>
+<td style="text-align:right;">
+483
+</td>
+<td style="text-align:right;">
+-182.19
+</td>
+<td style="text-align:right;">
+-94308.57
+</td>
+<td style="text-align:right;">
+-97016.27
+</td>
+<td style="text-align:right;">
+2707.70
+</td>
+<td style="text-align:right;">
+-12573.5692
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+52
+</td>
+<td style="text-align:right;">
+484
+</td>
+<td style="text-align:right;">
+1492.71
+</td>
+<td style="text-align:right;">
+-92815.86
+</td>
+<td style="text-align:right;">
+-96072.37
+</td>
+<td style="text-align:right;">
+3256.51
+</td>
+<td style="text-align:right;">
+-10785.3300
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+53
+</td>
+<td style="text-align:right;">
+485
+</td>
+<td style="text-align:right;">
+2520.16
+</td>
+<td style="text-align:right;">
+-90295.70
+</td>
+<td style="text-align:right;">
+-94276.54
+</td>
+<td style="text-align:right;">
+3980.84
+</td>
+<td style="text-align:right;">
+-9110.5783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+54
+</td>
+<td style="text-align:right;">
+486
+</td>
+<td style="text-align:right;">
+-442.70
+</td>
+<td style="text-align:right;">
+-90738.40
+</td>
+<td style="text-align:right;">
+-94523.97
+</td>
+<td style="text-align:right;">
+3785.57
+</td>
+<td style="text-align:right;">
+-7600.5458
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+55
+</td>
+<td style="text-align:right;">
+487
+</td>
+<td style="text-align:right;">
+77.98
+</td>
+<td style="text-align:right;">
+-90660.42
+</td>
+<td style="text-align:right;">
+-95147.37
+</td>
+<td style="text-align:right;">
+4486.95
+</td>
+<td style="text-align:right;">
+-6047.6308
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+56
+</td>
+<td style="text-align:right;">
+488
+</td>
+<td style="text-align:right;">
+1134.34
+</td>
+<td style="text-align:right;">
+-89526.08
+</td>
+<td style="text-align:right;">
+-94235.29
+</td>
+<td style="text-align:right;">
+4709.21
+</td>
+<td style="text-align:right;">
+-4613.1925
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+57
+</td>
+<td style="text-align:right;">
+489
+</td>
+<td style="text-align:right;">
+548.36
+</td>
+<td style="text-align:right;">
+-88977.72
+</td>
+<td style="text-align:right;">
+-93724.11
+</td>
+<td style="text-align:right;">
+4746.39
+</td>
+<td style="text-align:right;">
+-3291.8337
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+58
+</td>
+<td style="text-align:right;">
+490
+</td>
+<td style="text-align:right;">
+-5121.68
+</td>
+<td style="text-align:right;">
+-94099.40
+</td>
+<td style="text-align:right;">
+-93664.96
+</td>
+<td style="text-align:right;">
+-434.44
+</td>
+<td style="text-align:right;">
+-2225.1504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+59
+</td>
+<td style="text-align:right;">
+491
+</td>
+<td style="text-align:right;">
+2891.90
+</td>
+<td style="text-align:right;">
+-91207.50
+</td>
+<td style="text-align:right;">
+-94322.78
+</td>
+<td style="text-align:right;">
+3115.28
+</td>
+<td style="text-align:right;">
+-1049.3754
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+60
+</td>
+<td style="text-align:right;">
+492
+</td>
+<td style="text-align:right;">
+896.30
+</td>
+<td style="text-align:right;">
+-90311.20
+</td>
+<td style="text-align:right;">
+-92517.39
+</td>
+<td style="text-align:right;">
+2206.19
+</td>
+<td style="text-align:right;">
+-108.3979
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+61
+</td>
+<td style="text-align:right;">
+493
+</td>
+<td style="text-align:right;">
+387.12
+</td>
+<td style="text-align:right;">
+-89924.08
+</td>
+<td style="text-align:right;">
+-92945.86
+</td>
+<td style="text-align:right;">
+3021.78
+</td>
+<td style="text-align:right;">
+749.7721
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+62
+</td>
+<td style="text-align:right;">
+494
+</td>
+<td style="text-align:right;">
+789.68
+</td>
+<td style="text-align:right;">
+-89134.40
+</td>
+<td style="text-align:right;">
+-91547.71
+</td>
+<td style="text-align:right;">
+2413.31
+</td>
+<td style="text-align:right;">
+1506.9433
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+63
+</td>
+<td style="text-align:right;">
+495
+</td>
+<td style="text-align:right;">
+-580.70
+</td>
+<td style="text-align:right;">
+-89715.10
+</td>
+<td style="text-align:right;">
+-89569.66
+</td>
+<td style="text-align:right;">
+-145.44
+</td>
+<td style="text-align:right;">
+1904.6212
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+64
+</td>
+<td style="text-align:right;">
+496
+</td>
+<td style="text-align:right;">
+-391.01
+</td>
+<td style="text-align:right;">
+-90106.11
+</td>
+<td style="text-align:right;">
+-88055.78
+</td>
+<td style="text-align:right;">
+-2050.33
+</td>
+<td style="text-align:right;">
+2104.9829
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+65
+</td>
+<td style="text-align:right;">
+497
+</td>
+<td style="text-align:right;">
+-229.94
+</td>
+<td style="text-align:right;">
+-90336.05
+</td>
+<td style="text-align:right;">
+-86748.60
+</td>
+<td style="text-align:right;">
+-3587.45
+</td>
+<td style="text-align:right;">
+2172.0854
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+66
+</td>
+<td style="text-align:right;">
+498
+</td>
+<td style="text-align:right;">
+1241.74
+</td>
+<td style="text-align:right;">
+-89094.31
+</td>
+<td style="text-align:right;">
+-87284.37
+</td>
+<td style="text-align:right;">
+-1809.94
+</td>
+<td style="text-align:right;">
+2104.9000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+67
+</td>
+<td style="text-align:right;">
+499
+</td>
+<td style="text-align:right;">
+-295.57
+</td>
+<td style="text-align:right;">
+-89389.88
+</td>
+<td style="text-align:right;">
+-87574.46
+</td>
+<td style="text-align:right;">
+-1815.42
+</td>
+<td style="text-align:right;">
+2036.6225
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+68
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:right;">
+805.32
+</td>
+<td style="text-align:right;">
+-88584.56
+</td>
+<td style="text-align:right;">
+-88827.26
+</td>
+<td style="text-align:right;">
+242.70
+</td>
+<td style="text-align:right;">
+2033.5029
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+69
+</td>
+<td style="text-align:right;">
+501
+</td>
+<td style="text-align:right;">
+-1854.08
+</td>
+<td style="text-align:right;">
+-90438.64
+</td>
+<td style="text-align:right;">
+-90054.55
+</td>
+<td style="text-align:right;">
+-384.09
+</td>
+<td style="text-align:right;">
+1919.4442
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+70
+</td>
+<td style="text-align:right;">
+502
+</td>
+<td style="text-align:right;">
+1775.10
+</td>
+<td style="text-align:right;">
+-88663.54
+</td>
+<td style="text-align:right;">
+-90526.33
+</td>
+<td style="text-align:right;">
+1862.79
+</td>
+<td style="text-align:right;">
+1865.0729
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kable(byPBM,caption=&#39;Normal `kable` usage.&#39;)</code></pre>
+<table>
+<caption>
+Normal <code>kable</code> usage.
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+MoisAbs
+</th>
+<th style="text-align:right;">
+MontantE
+</th>
+<th style="text-align:right;">
+CumSoldes
+</th>
+<th style="text-align:right;">
+Dec
+</th>
+<th style="text-align:right;">
+S
+</th>
+<th style="text-align:right;">
+Mnt_03da
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+47
+</td>
+<td style="text-align:right;">
+479
+</td>
+<td style="text-align:right;">
+-3123.16
+</td>
+<td style="text-align:right;">
+-93649.49
+</td>
+<td style="text-align:right;">
+-94495.92
+</td>
+<td style="text-align:right;">
+846.43
+</td>
+<td style="text-align:right;">
+-21007.5037
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+48
+</td>
+<td style="text-align:right;">
+480
+</td>
+<td style="text-align:right;">
+934.42
+</td>
+<td style="text-align:right;">
+-92715.07
+</td>
+<td style="text-align:right;">
+-97013.71
+</td>
+<td style="text-align:right;">
+4298.64
+</td>
+<td style="text-align:right;">
+-18810.8063
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+49
+</td>
+<td style="text-align:right;">
+481
+</td>
+<td style="text-align:right;">
+-1750.93
+</td>
+<td style="text-align:right;">
+-94466.00
+</td>
+<td style="text-align:right;">
+-99396.29
+</td>
+<td style="text-align:right;">
+4930.29
+</td>
+<td style="text-align:right;">
+-16574.0729
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+50
+</td>
+<td style="text-align:right;">
+482
+</td>
+<td style="text-align:right;">
+339.62
+</td>
+<td style="text-align:right;">
+-94126.38
+</td>
+<td style="text-align:right;">
+-98504.66
+</td>
+<td style="text-align:right;">
+4378.28
+</td>
+<td style="text-align:right;">
+-14439.3921
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+51
+</td>
+<td style="text-align:right;">
+483
+</td>
+<td style="text-align:right;">
+-182.19
+</td>
+<td style="text-align:right;">
+-94308.57
+</td>
+<td style="text-align:right;">
+-97016.27
+</td>
+<td style="text-align:right;">
+2707.70
+</td>
+<td style="text-align:right;">
+-12573.5692
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+52
+</td>
+<td style="text-align:right;">
+484
+</td>
+<td style="text-align:right;">
+1492.71
+</td>
+<td style="text-align:right;">
+-92815.86
+</td>
+<td style="text-align:right;">
+-96072.37
+</td>
+<td style="text-align:right;">
+3256.51
+</td>
+<td style="text-align:right;">
+-10785.3300
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+53
+</td>
+<td style="text-align:right;">
+485
+</td>
+<td style="text-align:right;">
+2520.16
+</td>
+<td style="text-align:right;">
+-90295.70
+</td>
+<td style="text-align:right;">
+-94276.54
+</td>
+<td style="text-align:right;">
+3980.84
+</td>
+<td style="text-align:right;">
+-9110.5783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+54
+</td>
+<td style="text-align:right;">
+486
+</td>
+<td style="text-align:right;">
+-442.70
+</td>
+<td style="text-align:right;">
+-90738.40
+</td>
+<td style="text-align:right;">
+-94523.97
+</td>
+<td style="text-align:right;">
+3785.57
+</td>
+<td style="text-align:right;">
+-7600.5458
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+55
+</td>
+<td style="text-align:right;">
+487
+</td>
+<td style="text-align:right;">
+77.98
+</td>
+<td style="text-align:right;">
+-90660.42
+</td>
+<td style="text-align:right;">
+-95147.37
+</td>
+<td style="text-align:right;">
+4486.95
+</td>
+<td style="text-align:right;">
+-6047.6308
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+56
+</td>
+<td style="text-align:right;">
+488
+</td>
+<td style="text-align:right;">
+1134.34
+</td>
+<td style="text-align:right;">
+-89526.08
+</td>
+<td style="text-align:right;">
+-94235.29
+</td>
+<td style="text-align:right;">
+4709.21
+</td>
+<td style="text-align:right;">
+-4613.1925
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+57
+</td>
+<td style="text-align:right;">
+489
+</td>
+<td style="text-align:right;">
+548.36
+</td>
+<td style="text-align:right;">
+-88977.72
+</td>
+<td style="text-align:right;">
+-93724.11
+</td>
+<td style="text-align:right;">
+4746.39
+</td>
+<td style="text-align:right;">
+-3291.8337
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+58
+</td>
+<td style="text-align:right;">
+490
+</td>
+<td style="text-align:right;">
+-5121.68
+</td>
+<td style="text-align:right;">
+-94099.40
+</td>
+<td style="text-align:right;">
+-93664.96
+</td>
+<td style="text-align:right;">
+-434.44
+</td>
+<td style="text-align:right;">
+-2225.1504
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+59
+</td>
+<td style="text-align:right;">
+491
+</td>
+<td style="text-align:right;">
+2891.90
+</td>
+<td style="text-align:right;">
+-91207.50
+</td>
+<td style="text-align:right;">
+-94322.78
+</td>
+<td style="text-align:right;">
+3115.28
+</td>
+<td style="text-align:right;">
+-1049.3754
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+60
+</td>
+<td style="text-align:right;">
+492
+</td>
+<td style="text-align:right;">
+896.30
+</td>
+<td style="text-align:right;">
+-90311.20
+</td>
+<td style="text-align:right;">
+-92517.39
+</td>
+<td style="text-align:right;">
+2206.19
+</td>
+<td style="text-align:right;">
+-108.3979
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+61
+</td>
+<td style="text-align:right;">
+493
+</td>
+<td style="text-align:right;">
+387.12
+</td>
+<td style="text-align:right;">
+-89924.08
+</td>
+<td style="text-align:right;">
+-92945.86
+</td>
+<td style="text-align:right;">
+3021.78
+</td>
+<td style="text-align:right;">
+749.7721
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+62
+</td>
+<td style="text-align:right;">
+494
+</td>
+<td style="text-align:right;">
+789.68
+</td>
+<td style="text-align:right;">
+-89134.40
+</td>
+<td style="text-align:right;">
+-91547.71
+</td>
+<td style="text-align:right;">
+2413.31
+</td>
+<td style="text-align:right;">
+1506.9433
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+63
+</td>
+<td style="text-align:right;">
+495
+</td>
+<td style="text-align:right;">
+-580.70
+</td>
+<td style="text-align:right;">
+-89715.10
+</td>
+<td style="text-align:right;">
+-89569.66
+</td>
+<td style="text-align:right;">
+-145.44
+</td>
+<td style="text-align:right;">
+1904.6212
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+64
+</td>
+<td style="text-align:right;">
+496
+</td>
+<td style="text-align:right;">
+-391.01
+</td>
+<td style="text-align:right;">
+-90106.11
+</td>
+<td style="text-align:right;">
+-88055.78
+</td>
+<td style="text-align:right;">
+-2050.33
+</td>
+<td style="text-align:right;">
+2104.9829
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+65
+</td>
+<td style="text-align:right;">
+497
+</td>
+<td style="text-align:right;">
+-229.94
+</td>
+<td style="text-align:right;">
+-90336.05
+</td>
+<td style="text-align:right;">
+-86748.60
+</td>
+<td style="text-align:right;">
+-3587.45
+</td>
+<td style="text-align:right;">
+2172.0854
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+66
+</td>
+<td style="text-align:right;">
+498
+</td>
+<td style="text-align:right;">
+1241.74
+</td>
+<td style="text-align:right;">
+-89094.31
+</td>
+<td style="text-align:right;">
+-87284.37
+</td>
+<td style="text-align:right;">
+-1809.94
+</td>
+<td style="text-align:right;">
+2104.9000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+67
+</td>
+<td style="text-align:right;">
+499
+</td>
+<td style="text-align:right;">
+-295.57
+</td>
+<td style="text-align:right;">
+-89389.88
+</td>
+<td style="text-align:right;">
+-87574.46
+</td>
+<td style="text-align:right;">
+-1815.42
+</td>
+<td style="text-align:right;">
+2036.6225
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+68
+</td>
+<td style="text-align:right;">
+500
+</td>
+<td style="text-align:right;">
+805.32
+</td>
+<td style="text-align:right;">
+-88584.56
+</td>
+<td style="text-align:right;">
+-88827.26
+</td>
+<td style="text-align:right;">
+242.70
+</td>
+<td style="text-align:right;">
+2033.5029
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+69
+</td>
+<td style="text-align:right;">
+501
+</td>
+<td style="text-align:right;">
+-1854.08
+</td>
+<td style="text-align:right;">
+-90438.64
+</td>
+<td style="text-align:right;">
+-90054.55
+</td>
+<td style="text-align:right;">
+-384.09
+</td>
+<td style="text-align:right;">
+1919.4442
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+70
+</td>
+<td style="text-align:right;">
+502
+</td>
+<td style="text-align:right;">
+1775.10
+</td>
+<td style="text-align:right;">
+-88663.54
+</td>
+<td style="text-align:right;">
+-90526.33
+</td>
+<td style="text-align:right;">
+1862.79
+</td>
+<td style="text-align:right;">
+1865.0729
+</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

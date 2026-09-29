@@ -1,0 +1,7 @@
+XLODBC
+1
+DSN=MS Access Database;DBQ=Q:\User\PersActif\Bud2002\BilanAnnuel.mdb;DefaultDir=Q:\User\PersActif\Bud2002;DriverId=281;FIL=MS Access;MaxBufferSize=2048;PageTimeout=5;
+SELECT QpourBilanAnnuel.TYPE, QpourBilanAnnuel.MoisAbs, QpourBilanAnnuel.MONTANT, QpourBilanAnnuel.AnReel, QpourBilanAnnuel.PBM, QpourBilanAnnuel.MoisReel  FROM `Q:\User\PersActif\Bud2002\BilanAnnuel`.QpourBilanAnnuel QpourBilanAnnuel  WHERE (QpourBilanAnnuel.TYPE='VD2') AND (QpourBilanAnnuel.MoisAbs>303) OR (QpourBilanAnnuel.TYPE='D2C') AND (QpourBilanAnnuel.MoisAbs>303)
+
+
+TYPE	MoisAbs	MONTANT	AnReel	PBM	MoisReel

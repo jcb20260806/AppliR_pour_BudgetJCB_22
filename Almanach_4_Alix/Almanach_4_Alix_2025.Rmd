@@ -1,0 +1,653 @@
+---
+author: "`r paste('Suivi jcb Budget In_Out',format(Sys.time(), '%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+date: " `r paste('Document créé le 3/12/2021, mis à jour le ',format(Sys.time(), '%a-%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+output:
+  html_document:
+   cwd() df_print: paged
+  word_document: default
+  pdf_document: default
+---
+Fichier: `r get(env = parent.frame(n = 8), 'input')`  
+CWD: `r getwd()`  ---
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+```{r setup, include=FALSE, eval=FALSE,results='hide',message=FALSE,warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format = "html")
+```
+```{r Get jcb Libraries, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+#install.packages("dtrackr")
+
+
+#source("../jcbBudget_RModules/jcbBudget_InstallPackages.R")
+source("../jcbBudget_RModules/jcbBudget_Used_Libs.R")
+source("../jcbBudget_RModules/Get_and_Clean_MvtReelAll.R")
+source("../jcbBudget_RModules/MonthlyAverageByDay.R")
+source("../jcbBudget_RModules/ManageMoisAbs.R") # get routine to manage MoisAbs
+
+```
+```{r Paramètres, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+PBMIn<-c("be","c")
+PBMOut<-c("ae","af","av","b")
+PBMRecurrent<-c("af","av","be","b","c")
+```
+```{r jcb Functions générales, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+jcbVarName <- function(v1) {
+  # routine pour utiliser le nom d' une variable dans un titre par exemple
+  deparse(substitute(v1))
+}
+jcbRen<-function(InStrq){
+  # Fonction pour renommer des variables
+  a<-substr(InStr, str_length(InStr)-1,str_length(InStr))
+  b<-substr(InStr, str_length(InStr)-1,str_length(InStr))
+  if (a==".x"){b<-"In"}
+  if (a==".y"){b<-"Out"}
+  return(paste(substr(InStr, 1,str_length(InStr)-2),b,sep=''))
+  
+}
+
+```
+
+
+
+
+        
+
+
+
+
+```{r Phase 1-Get Data and Adapt, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+# Get Mouvements de l' année
+mycwd<-getwd()
+myDB<-"../../db/BudgetJCBDB_22.sql"
+MvtReelAll<-GetandCleanMvtReelAll(myDB)
+
+BBdb<-"../../../BudgetBarBar_22/db/BudgetBarBar_22.sql"
+MvtReelBB<-GetandCleanMvtReelAll(BBdb)
+
+
+MvtReelAll<-MvtReelAll[MvtReelAll$MoisAbs>=454,]
+#write.csv(MvtReelAll, "./MvtReelAll.csv", row.names=TRUE)
+# identifier les limites de la DB
+FirstAnReel<-min(MvtReelAll$AnReel)
+FirstDayFE<-min(MvtReelAll$DayFE)
+FirstNMvt<-min(MvtReelAll$NMvt)
+LastDayFE<-max(MvtReelAll$DayFE)
+FirstMoisAbs<-min(MvtReelAll$MoisAbs)
+LastMoisAbs<-max(MvtReelAll$MoisAbs)
+# On adapte pour aligner le solde
+MvtReelAll <- transform(MvtReelAll, MontantE = ifelse(NMvt=="2017.0485.00" , MontantE+11165.55, MontantE))
+# On calcule les soldes
+SoldesParNMvt<-aggregate(MvtReelAll$MontantE, by=list(NMvt=MvtReelAll$NMvt), FUN=sum)
+SoldesParNMvt[,"RunSolde"] <- cumsum(SoldesParNMvt$x)
+# le running solde est correct= vérifié le 8/11/2022!
+
+
+```
+
+```{r Prepare Projection, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+# Pour préparer la prévision, on va dupliquer les 12 derniers MoisAbs
+# je me base sur maxMoisAbs - 12 donc mvt en double ( ceux du dernier mois qui est incomplet par construction 
+MvttoProject<-MvtReelAll[MvtReelAll$MoisAbs>=LastMoisAbs-12,]
+
+MvttoProject<-subset(MvttoProject,( PBM %in% PBMRecurrent)) # pour mémoire
+
+# On ajuste Date pour faire la projection : nouvelles colonness: Year et Date
+MvttoProject$Year<-as.character(as.numeric(substr(MvttoProject$Date,1,4))+1)
+MvttoProject$Date<-as.Date(paste(MvttoProject$Year,substr(MvttoProject$Date,6,10),sep="-"))
+MvttoProject<-select(MvttoProject,-c(Year)) # on supprime la colonne Year
+# On recalcule MoisAbs en fonction de la nouvelle Date
+MvttoProject$MoisAbs<-unlist(lapply(MvttoProject$Date,CalcMoisAbs))
+# On recalcule DayFE
+MvttoProject$DayFE<- as.integer(as.Date(MvttoProject$Date,format=	"%Y-%m-%d")) # make day from epoch"
+# DateVal et NMvt n' a plus de sens
+#
+
+# on stocke le début et la fin de la projection
+LastMoisAbsProj<-max(MvttoProject$MoisAbs)
+# o nsupprime le dernier mois qui est sans intérêt
+MvttoProject<-MvttoProject[MvttoProject$MoisAbs!=LastMoisAbsProj,]
+LastMoisAbsProj<-max(MvttoProject$MoisAbs)
+
+LastDayFEProj<-max(MvttoProject$DayFE)
+
+FirstMoisAbsProj<-min(MvttoProject$MoisAbs)
+FirstDayFEProj<-min(MvttoProject$DayFE)
+```
+```{r Création de NewMvtAll, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+NewMvtAll <- rbind(MvtReelAll, MvttoProject)
+NewMvtAll$AnReel<-year(NewMvtAll$Date)
+NewMvtAll<-select(NewMvtAll,-c(DateVal,NMvt))
+LastAnReelNew<-max(NewMvtAll$AnReel)
+# j' invente la notion de Virtual Year
+NewMvtAll$VirtYear<- (NewMvtAll$MoisAbs-FirstMoisAbs-1)%/%12+FirstAnReel+1
+
+```
+
+
+
+
+<table style="width: 100%" border="1" page-break-before: always>
+<tbody>
+<tr>
+<td>Almanach Alix – Tout ce Qu’ il faut savoir …<br><br>
+version Janvier 2025
+
+adresses mails utilisées :<br>
+- principalement: bar.jeanclaude@gmail.com - mot de passe:!!Alix2013!!<br>
+- devrait disparaître jc.bar@skynet.be - mot de passe:!!Alix2013 !! mais reprend alix.bar@skynet.be<br>
+
+Numéros de Compte:
+
+A. BNP Paribas Fortis
+- Compte-Courant Alix: BORN ALIX BE43 2400 8050 9701<br>
+- Compte-Courant JCB: BAR JEAN BE93 2100 7634 0567<br>
+- Compte-Epargne: BAR JEAN BE30 0355 9631 4211<br>
+- Compte-Epargne: BAR JEAN BE50 0357 3625 6818: l' argent retiré de de Groof qui n'est pas sur mon compte courant<br>
+- Compte BAR-BAR: BE74 0018 2943 0407<br>
+
+- Pension Invest Plan - BAR JEAN : 006-5699315-51 - Echéance: 01/02/2028<br>
+- Pension Invest Plan - BORN ALIX: 006-5470598-60 - Echéance: 01/12/2027<br>
+
+B. Degroof: M. & Mme Jean-Claude Bar - Client N°: 14373
+- Portefeuille:   00324617.001<br>
+- Compte-Courant: BE48 8450 0171 9027 - on peut juste y verser de l' argent<br>
+
+
+Je mets de plus en plus de documents sur https://www.izimi.be/fr/ : accès avec itsme!
+
+Site utile pour les impôts et les documents enregistrés ( baux, donations, ... ): https://finances.belgium.be/fr/E-services/Tax-on-web, cliquer myMinFin, identitication avec itsme.
+
+Information sur les locataires:
+-> Voir Fardes Grises dans le bureau, en hauteur<br>
+On y trouve les baux, les cartes d' identité, les états des lieux, les documents relatifs aux dépôts de garantie que l' on peut aussi retrouver en consultant: https://www.minfin.fgov.be/myminfin-web/pages/private <br>
+identification avec ITSME<br>
+
+A. Appartement 2.1 et Pkg8 - Dawir-Piton: 
+
+Madame Dawir Manon, née le 6 octobre 1994, NN : 94.10.06.420.86
+Téléphone : +32 496 72 24 64 - E-mail : manon.dawir@icloud.com
+et
+Monsieur Piton Romain, né le 20 juillet 1993, NN : 93.07.20.323.12
+Téléphone : +32 492 65 45 99 - E-mail : romainptn@gmail.com
+
+  
+Bail signé le 28 juillet  2024.  
+Loyer avec Parking et charges: 1260.00  
+Indice repris dans le bail : 1 juin 2024 : 131.92 ( Indice sans produits énergétiques)  
+Date du début du bail : 1/9/2024.  
+
+B Appartement 2.2 ( 2 chambres ) cadastré 2.3 - Dubois-Epkei: 
+
+Madame Louise Dubois, née à Saint-Benoît-La-Forêt ( France ),le 19 juin 1998, NNIS : 980619-716-38,
+Téléphone : +32 489 52 32 48 E-mail : louisedubois22@gmail.com
+et
+Monsieur Esso-Solam Anicet H Epkai, né le 8 mars 1998, NNIS : 980308-413-68
+Téléphone : +32 465 95 74 16
+
+  
+Bail signé le 17 février 2024.  
+Loyer avec Charges sans Parking : 1010.00  
+Indice repris dans le bail: 1 janvier 2024 : 130.19 ( Indice sans produits énergétiques)  
+Date du début du bail: 1/4/2024.
+
+C. Parking 11 - Rausin:
+
+Monsieur Rausin, 
+domicilié,        4, Place du Roi Albert à 4130 Tilff, gsm : 0479 38 09 28
+  
+Bail signé le 31 mars 2024.  
+Loyer Parking: 80.00  
+Indice repris dans le bail : 2 février 2024 : 130.95 ( Indice sans produits énergétiques)  
+Date du début du bail : 1/4/2024.
+
+D. Parking 12 - J.Pirotte VV.Forthomme La Boulle  
+
+l’ indice de septembre 2018 est égal à 107.52  
+Loyer Parking 12: 75.00  
+Date du début du bail: 7/11/2018 
+
+Mutuelle:
+Partenamut: accès au site https://my.partenamut.be ( identification avec ITSME) ou téléphone:  +32 2 444 41 11
+
+
+</td>
+</tr>
+<tr>
+<td>
+1. Dépenses de Santé<br><br>
+1a. Dépenses de Santé - Farde verticale dans le bureau
+
+- Visite chez le médecin ou facture de consultation reçue par la poste ( c' est le cas des visites chez Lamy): coller vignette, photocopier document, ranger copie dans “Mutuelle et Ambulatoire” ( Bureau ), envoyer/déposer l’ original à la Mutuelle.<br>
+Si on ne reçoit pas de papier ( par exemple chez Louis ), il faut demander une attestation papier pour l' assurance ambulatoire mais il n' y a rien à faire pour la Mutuelle
+- Factures de Lunettes, prendre copie pour l' assurance ambulatoire et envoyer l' original à la Mutuelle
+- Factures « Soins Médicaux » de toutes natures ( prises de sang, lunettes, kiné etc: payer, garder original dans “Mutuelle et Ambulatoire” ( Bureau )
+- Pharmacie : faire scanner la carte ce la remplace l'attestation pour « Assurance Soins de Santé Ambulatoire », qu' il fallait ranger copie dans “Mutuelle et Ambulatoire” ( Bureau )<br><br>
+1b.Hospitalisation : 
+au plus tard dans les 30 jours suivants l’ hospitalisation ( mais si possible avant ! ),  
+- informer AG Insurances- Section Assurances Hospitalisation ( on peut le faire par courrier postal, sur le site AG Insurances ou par Télépone au 02/664.19.80 mentionner le Groupe H659 de Ex-employés de BNP-Paribas-Fortis ;
+- on reçoit un accusé de réception par Courrier Postal;<br>
+- quand on reçoit une facture la payer puis l’ envoyer à AG Insurance avec en référence le numéro de dossier repris dans l’ accusé de réception ;<br>
+- prendre éventuellement une copie de la facture envoyée surtout si c’est un gros montant.<br>
+- Il faut envoyer TOUT ce qui est relatif à l’ hospitalisation : médicaments, visite avant et après l’ intervention etc.<br> voir farde “Mutuelle et Ambulatoire” ( Bureau )<br>
+- il faut envoyer le plus possible, au risque que ce soit refusé.<br>
+<br>
+==> en cas de doute appeler le Help Desk AG Insurances: 02/664.19.80 mentionner le Groupe H659 de Ex-employés de BNP-Paribas-Fortis
+
+1c. Comment retoucher les frais ambulatoires: 
+   . prendre la farde  “Mutuelle et Ambulatoire” ( Bureau ), 
+   . séparer les documents relatifs à JCB et ceux relatifs à AB ; trier par nature de document ( 3 sortes de documents: a.Attestations de Soins, b.Facture, c.Attestation Pharmacie ) ; 
+   . mettre le tout dans deux enveloppes ( une par personne ) 
+   . y joindre une copie de la lettre d’ introduction ( voir farde  “Mutuelle et Ambulatoire” ( Bureau ) et Annexe ), 
+   . déposer les enveloppes dans une agences BNPP Fortis, après avoir mis l’ adresse de AG Insurances ; voir exemple de lettre                 d’ accompagnement ci-dessous.
+
+==> en cas de doute appeler le Help Desk AG Insurances: 02/664.19.80 mentionner le Groupe H659 de Ex-employés de BNP-Paribas-Fortis
+         
+</td>
+</tr> 
+<tr>
+<td>
+2. Gestion Appartements - Voir fardes grises dans le bureau<br>
+=> pour rappel, l' appartement ( cadastré  2.3 ) est à l' adresse Place du Saucy, 6A, Boîte 2.2 <br><br>
+a. Appels de Charges
+En fin d'année ( parfois plus tôt ), Malaise envoit les Appels de Charge. 
+On est supposé faire tous les trois mois ( janvier, avril, juillet octobre ) cinq virements: un pour chaque appartement et un pour chaque emplacement de parking.<br>
+Pour me faciliter la vie et éviter les erreurs, j' ai fait des virements permanents.<br>
+Si les montants changent car décidé à l' Assemblée Générale des co-propriétaires, il faut aller dans l' application EasyBanking pour les changer.
+Ces virements sont faits à partir du compte Bar-Bar.<br>
+Si JC n' est pas capable, soit les enfants le font soit ils donnent accès ( = procuration ) à Alix pour qu' elle le fasse.<br>
+
+- Revoir Loyer appartements et Parking:
+    . en principe, on doit faire la révision du loyer à l' anniversaire de la signature du bail.
+    - voir les données ci-dessus
+     on peut trouver les index en consultant le site https://statbel.fgov.be/fr/themes/prix-la-consommation/indice-sante et calculer avec la formule indiquée dans le bail, 
+       écrire aux locataires pour annoncer le nouveau loyer
+       
+b. Appel de Cloture et Assembiée Générale<br>
+En début d' année, le syndic organise l' Assemblée Générale des Co-Propriétaires; on y discute la situation du bâtiment et on approuve les comptes. Après l' assemblée, on reçoit un courrier ( facture ) qui indique ce que l' on doit éventuelllemet en plus des avances de charge que l' on a versées pendant l' année.
+Il faut vérifier cette facture: vérifier que les avances que nous avons payées ont été comptées et que ce qu' on nous réclame est justifié.
+Si c' est correct, verser la somme demandée à partir du compte Bar-Bar.<br>
+Voir ci-dessous pour le remboursement du compte Bar-Bar
+
+```{r Cout Remboursement Charges Tilff BB, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+MaxMoisAsBB<-max(MvtReelBB$MoisAbs)
+df2<-MvtReelBB[MvtReelBB$Type!="GGC" & MvtReelBB$MoisAbs>MaxMoisAsBB-13 & MvtReelBB$MoisAbs<MaxMoisAsBB-1, ]%>%
+select(c(Type,TLib,MontantE,AnReel,MoisReel))
+df2$MoisReel<-as.numeric(df2$MoisReel)
+
+ProjPT <- PivotTable$new()
+ProjPT$addData(df2)
+ProjPT$addColumnDataGroups("AnReel",addTotal = TRUE)
+ProjPT$addColumnDataGroups("MoisReel",addTotal = TRUE)
+ProjPT$addRowDataGroups("Type",addTotal = TRUE)
+#ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ 
+ProjPT$defineCalculation(calculationName="MontantE",summariseExpression="sum(MontantE)")
+(ProjPT$renderPivot())
+```
+
+
+c. Remboursement des charges.
+les factures reçues du Syndic font la distinction entre les charges attribuables à l' occupant et celles dues par le propriéraire; Je rembourse à partir du compte JCB le compte Bar-Bar de la partie due par l' occupant.
+```{r Cout Remboursement Charges Tilff, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('CHATILFF'), ]%>%
+select(c(DateVal,TLib,MntEur22))
+(df2)
+```
+
+
+Je pourrais sans doute toutpayer toutes les charges à patir du compte JCB mais cette façon de faire me semble être plus cohérente avec le principe Usufruitier_Nus-Propriétaires.
+
+==> Pour toute question relatives aux charges voir le Syndic ( L.Malaise: 04 224 08 16 ) ou Albert Debrun ( autre co-propriétaire: 04 223 48 09 )<br><br>
+
+d. Entretien Chaudière Gaz et Ventilation des deux appartements.  
+L' entretien des chaudières doit être fait tous les deux ans.  
+L' entretien des ventilation doit être fait tous les ans.  
+
+Les baux prévoient qu' ils sont à notre charge; voir les échéances ci-dessous.
+Ces entretiens sont importants ne cas d' incendie!
+
+Planifier les entretiens avec les locataires et Normacalor ( 04 247 11 13 ).<br>
+On entretient la ventilation( VMC ) et la chaudière en même temps par la même société.
+
+=> pour les problèmes de plomberie et les problèmes de chauffage, appeler Normacalor ( 04 247 11 13 ).
+
+e. Entretien des Adoucisseurs.<br><br>
+L' entretien des adoucisseurs doit être fait tous les ans; on peut trainer un peu pour faire un économie ( 14mois ).
+Les baux prévoient qu' ils sont à notre charge; voir les échéances ci-dessous.<br>
+Ces entretiens sont importants pour ne pas être rendus responsables d' un problème de santé.<br>
+j’ ai conclu un contrat ( +/-90 Euros + TVA et indexation ) pour chaque appartement, qui comprend une intervention gratuite par an.<br>
+Voir contrats dans les fardes 2.3 des appartements, payer à partir du compte JCB<br>
+
+On est contacté par Watertech ( la société qui fait les entretiens ) le moment venu.
+
+
+
+</td>
+</tr>
+<tr>
+<td>
+3. Chez nous.
+
+a. Mazout
+
+- Tous les mois, vérifier le Mazout : noter index du mois sur la chaudière,
+- La citerne contient 2000litres de mazout et consomme entre 4 et 5litres à l’heure ( moins avec la nouvelle !)
+- Avec une citerne pleine, la chaudière peut donc fonctionner 400heures( plus avec la nouvelle.
+- Noter l' index le jour du dernier plein pour calculer le volume à commander
+- Ne pas commander moins de 1000litres!
+
+Si la différence entre l’ index courant et l’ index du dernier plein est plus grande que 250 ; commander 1000litres de mazout ou appliquer la formule : Nombre de Litres à Commander= (Index dernier plein – Index Courant)*4,5litres de mazout.
+
+=> Fournisseur de Mazout: Petrolworks: 04 388 10 30.
+
+=> pour tout problème avec la chaudière, appeler Themococoon ( Nicolas Thibaut ): 047685 19 25
+
+b. Poële à Pellet
+
+- Une ou deux fois par semaine suivant l' utilisation, il faut nettoyer le poële à pellets (= aspirer les cendres, videe le tiroir, nettoyer la vitre )
+- Tous les deux mois, il faut vérifier la cheminée: démonter le bas et vider les cendres. 
+- En principe, une fois par an, il faut faire entretenir le poële: je le nettoie complètement moi-même!
+- Dernier entretien payé:
+```{r Entretion Poele Pellets, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('ENCPel'), ]%>%
+select(c(DateVal,TLib,MntEur22))
+(df2)
+```
+
+
+- Achat de pellets: pellets allemands ( sacs rouges ) ou bleges ( sacs verts ), Pellets Piron: commander par téléphone ( 04 240 12 40 ) ou aller les chercher à Seraing ( rue de la Boverie, 316, 4100 Seraing, tél. : 04 338 35 98 )
+
+=> En cas de panne: distributeur/réparateur le plus proche: HARDY SPRL, Rue De L'epée, 8, 4000 LIEGE, tél. 04/222 02 72
+
+c. Adoucisseur
+Voir appartement
+</td>
+</tr>
+<tr>
+<td>
+Evénements Mois par Mois et Montants
+
+1. Janvier
+
+- On reçoit la facture pour l’ assurance Hospitalisation: ci-dessous montant pour Alix et JC
+```{r Cout HOS, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('HOS'), ]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+- On reçoit la facture trimestrielle pour l’ assurance Soins de Santé Ambulatoire: ci-dessous montant pour Alix et JC;
+  Facture payée par domiciliation
+```{r Cout AMB, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('AMB'),]
+df2<-df2[df2$MoisReel<3 & df2$MntEur22<0,]%>%
+
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+- En principe, on reçoit une proposition de date pour l' entretien de l’ adoucisseur de l’ appartement 2.3, fixer la date avec Anne Donche; Factures des années précédentes:
+```{r Cout ADOUA23, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('ADOUA23'), ]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+- Faire la Déclaration pour retoucher les frais de « Soins Ambulatoires » : 
+
+2. Février
+
+- On reçoit la facture finale pour l' électricité et le montant de l' acompte pour l' année suivante; cette facture est payée par domiciliation sur le compte JCB
+
+3. Mars
+
+- Rien à signaler
+
+4. Avril
+- On reçoit la facture trimestrielle pour l’ assurance Soins de Santé Ambulatoire: ci-dessous montant pour Alix et JC;
+  Facture payée par domiciliation
+```{r Cout AMB2, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('AMB'),]
+df2<-df2[df2$MoisReel==4 & df2$MntEur22<0,]%>%
+
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+- Déshivernage de la piscine
+```{r Cout PiscRec, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+```
+
+          
+5. Mai
+
+- Déclaration d’ Impôts : voir fardes verticales dans le bureau
+  - on reçoit une déclaration pré remplie ; 
+  - le seul point à ajouter est relatif à un/des versements pour une assurance-vie impliquant une réduction d’ impôts ; 
+  - le document y relatif est dans la farde Impôts-Année en cours ( classeur suspendu dans le bureau ) où on peut trouver aussi     les documents relatifs aux années précédentes ; 
+  - je remplis la déclaration sur internet ( Tax-On-Web ) ; 
+  - je signe avec l’ application ITSME sur mon téléphone ( PIN= 01809 ) ou avec les Token ( petit portefeuille noir dans l’        écritoire ; les informations pour se connecter sont les suivantes : 
+                           =>  login/identifiant pour Alix : alix.bar, mot de passe : leda1493
+                           => login/identifiant  pour jc : jc.bar, mot de passe : alix2156
+    - Depot pour réduction d’ impôts : 
+           - à l’ occasion de l’ établissement de la déclaration, il faut calculer combien verser sur les dépôts défiscalisés (                            cfr les dernières collones du tableau Patrimoine ) et 
+           - faire directement les versements adéquats en vue de la déclaration de l’ année suivante.
+           - on verse +/-  1500Euros pour JC et 700 pour Alix
+           - virements à faire sur les comptes: 
+                       => Pension Invest Plan - BAR JEAN : 006-5699315-51
+                       => Pension Invest Plan - BORN ALIX: 006-5470598-60
+           
+- Charges des appartements : en principe, en mai, on reçoit le décompte des charges pour les appartements ( voir plus haut )
+    
+- Taxe de Roulage Verso:
+```{r Cout TRV, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('TRV'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+
+
+6. Juin
+
+- Faire la Déclaration pour retoucher les frais de « Soins Ambulatoires » : voir ci-dessus
+
+7. Juillet
+
+- On reçoit la facture trimestrielle pour l’ assurance Soins de Santé Ambulatoire: ci-dessous montant pour Alix et JC;
+  Facture payée par domiciliation
+```{r Cout AMB3, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('AMB'),]
+df2<-df2[df2$MoisReel==7 & df2$MntEur22<0,]%>%
+
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+8. Août
+
+- En août on reçoit l’ avertissement-extrait de rôle pour le précompte immobilier pour l" ensemble des appartements et parkings de Tilff, à payer en octobre. J’ ai lu quelque part qu’ it devait être payé par les usufruitiers.
+Je fais directement un virement mémo pour la bonne date à partir du compte jcb.
+
+```{r Cout PRITIL, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('PRITIL'),]%>%
+
+
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+9. Septembre
+            
+- se demander si on veut renouveler le contrat d’ entretien de l’ adoucisseur de l’ appartement 2.3 ( voir farde ) ;
+      si résiliation, envoyer lettre recommandée Watertech.
+- se demander si on veut renouveler le contrat d’ entretien de l’ adoucisseur de la Belle Jardinière ( voir farde );
+  si résiliation, envoyer lettre recommandée.
+- on reçoit un avis d' échéance pour l’ assurance incendie de la maison à payer en novembre; c' est payé par domicilation
+```{r Cout INC, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('INC'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+- on reçoit un avis d' échéance pour l’ assurance familiale à payer en novembre; c' est payé par domicilation
+```{r Cout FAM, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('FAM'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+  
+- On reçoit l’ avertissement-extrait de rôle invitant à payer le précompte immobilier pour la maison pour paiement en novembre:
+   je fais directement le virement avec date-mémo au 15 novembre.
+```{r Cout PRI, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('PRI'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+``` 
+- On reçoit l’ avertissement-extrait de rôle pour l’ impôt des personnes physiques. Depuis l’ acquisition des appartements, on   repaye! Je fais directement un virement-mémo ( en principe pour novembre )
+
+
+```{r Cout CON, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('CON'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+10. Octobre
+
+- Prévoir l’ hivernage de la piscine: Appeler Tahiti Piscine ( 04 263 89 11 ) ou Alex
+
+- Paiement du précompte immobilier pour Tilff.
+```{r Cout PRITIL2, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('PRITIL'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+- Taxe de circulation AYGO : 
+```{r Cout TPE, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('TPE'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+On reçoit la facture trimestrielle pour l’ assurance Soins de Santé Ambulatoire: ci-dessous montant pour Alix et JC;
+  Facture payée par domiciliation
+```{r Cout AMB4, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('AMB'),]
+df2<-df2[df2$MoisReel==10 & df2$MntEur22<0,]%>%
+
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+11. Novembre
+
+- Paiement des Impots
+```{r Cout CON2, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+df2<-MvtReelAll[MvtReelAll$Type %in% c('CON'),]%>%
+select(c(DateVal,TLib,MntEur22))%>%
+tail(n=1)
+(df2)
+```
+
+12. Décembre
+
+- En principe, on reçoit par la poste la demande de relevé de l’ index d’ eau : relever l’ index ( compteur dans la cave à vin ),  le communiquer par internet, téléphone ou afficher à la fenêtre ( voir indication sur la lettre de demande )
+- En principe, on reçoit par la poste la demande de relevé des index d’ électricité : relever les index ( compteurs dans l’ armoire en bas de l’ escalier ),  les communiquer par internet, téléphone ou afficher à la fenêtre ( voir indication sur la lettre de demande )
+
+
+
+</tr>
+</td> 
+<tr>
+<td>
+Synthèse des Grosses Sorties
+```{r Annuelles, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+t<-MvtReelAll[MvtReelAll$Prd=="Annuel" & MvtReelAll$MoisAbs>=LastMoisAbs-12 & MvtReelAll$MoisAbs<LastMoisAbs & MvtReelAll$MontantE<0,]
+t<-select(t,c(TLib,MntEur22,MontantE,AnReel,MoisReel,MoisAbs))
+
+ProjPT <- PivotTable$new()
+ProjPT$addData(t)
+ProjPT$addColumnDataGroups("AnReel",addTotal = TRUE)
+ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ProjPT$addRowDataGroups("TLib",addTotal = TRUE)
+#ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ 
+ProjPT$defineCalculation(calculationName="MontantE",summariseExpression="sum(MontantE)")
+(ProjPT$renderPivot())
+```
+
+
+</td>
+</tr>
+
+<tr>
+<td>
+Synthèse des Grosses Dépenses Aléatoires
+```{r Aleatoires, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+t<-MvtReelAll[MvtReelAll$Prd=="Aleatoire" & MvtReelAll$MoisAbs>=LastMoisAbs-12 & MvtReelAll$MoisAbs<LastMoisAbs & MvtReelAll$MontantE<0,]
+t<-select(t,c(TLib,MntEur22,MontantE,AnReel,MoisReel,MoisAbs))
+
+ProjPT <- PivotTable$new()
+ProjPT$addData(t)
+ProjPT$addColumnDataGroups("AnReel",addTotal = TRUE)
+ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ProjPT$addRowDataGroups("TLib",addTotal = TRUE)
+#ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ 
+ProjPT$defineCalculation(calculationName="MontantE",summariseExpression="sum(MontantE)")
+(ProjPT$renderPivot())
+```
+
+
+</td>
+</tr>
+<tr>
+<td>
+Synthèse des Rentrées
+```{r Rentrées, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+
+t<-MvtReelAll[MvtReelAll$PBM %in% c("be","c" ) &  MvtReelAll$MontantE>0 & MvtReelAll$MoisAbs>=LastMoisAbs-12 & MvtReelAll$MoisAbs<LastMoisAbs,]
+t<-select(t,c(TLib,MntEur22,MontantE,AnReel,MoisReel,MoisAbs))
+
+ProjPT <- PivotTable$new()
+ProjPT$addData(t)
+ProjPT$addColumnDataGroups("AnReel",addTotal = TRUE)
+ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ProjPT$addRowDataGroups("TLib",addTotal = TRUE)
+#ProjPT$addColumnDataGroups("MoisReel",addTotal = FALSE)
+ 
+ProjPT$defineCalculation(calculationName="MontantE",summariseExpression="sum(MontantE)")
+(ProjPT$renderPivot())
+```
+
+
+</td>
+</tr>
+</tbody>
+</table>
+<p><br><br> </p>
+      
+
+...oooOOOooo...
+
+

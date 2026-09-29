@@ -1,0 +1,17 @@
+library(tidyr)
+#library(gridExtra)
+#library(ezknitr)
+library(useful)
+library(dplyr)
+library(pivottabler)
+#library(kableExtra)
+library(DBI)
+library(RSQLite)
+library(ggplot2) # Pour la visualisation des données
+library(lubridate)
+library(zoo)
+library(pivottabler)
+library(sqldf)
+library(stringr)
+library(readxl)
+

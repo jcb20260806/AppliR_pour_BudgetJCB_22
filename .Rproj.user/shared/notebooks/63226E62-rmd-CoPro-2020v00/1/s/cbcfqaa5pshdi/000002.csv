@@ -1,0 +1,3 @@
+"0","source(""jcbBudgetLibOfLibv2.R"")"
+"0","BudgetDB<-""/mnt/NewINPG/0-P3-Budget/Budget-DataBase-Paral/BudgetJCB/db/BudgetJCBDB.sql"""
+"0","YearFrom<-2020 # on prend les records>=YearFrom"

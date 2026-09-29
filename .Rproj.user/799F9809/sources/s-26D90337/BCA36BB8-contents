@@ -1,0 +1,69 @@
+---
+title: "`r paste('Comptes Tilff Chateau - 2020',format(Sys.time(), '%a-%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+author: "jcb"
+date: " `r paste('Document créé le 8/10/2020, mis à jour le ',format(Sys.time(), '%a-%d/%m/%Y'),'.',sep=' ',collapse = NULL)`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+Fichier: `r get(env = parent.frame(n = 8), 'input')`
+```{r setup, include=FALSE, eval=FALSE,results='hide',message=FALSE,warning=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+options(knitr.table.format = "html")
+library(dplyr)
+library(plyr)
+
+```
+```{r Librairies et Sources et Paramètres, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+myDB<-"/mnt/NewINPG/0-P3-Budget/Budget-DataBase-Paral/BudgetCoPro/db/BudgetCoPro.sql"
+library(DBI)
+library(RSQLite)
+myCSV="Journal2020.csv"
+
+
+
+```
+```{r Get Data, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+#con <- dbConnect(SQLite(), myDB)
+conn <- dbConnect(drv = SQLite(), dbname= myDB)
+LT<-dbListTables(conn)
+dbListFields(conn,"MvtReel")
+dbGetQuery(conn,"SELECT count(*) FROM MvtReel")
+Query1='SELECT Mnt-En-Euros.NMvt AS NMvt, Mnt-En-Euros.TYPE AS Type, Mnt-En-Euros.MoisAbs AS MoisAbs,Mnt-En-Euros.Mnt AS Mnt, Mnt-En-Euros.MONTANT AS MONTANT, MSMnt-En-Cents.TYPE AS TypeMS, MSMnt-En-Cents.MoisAbs AS MSMoisAbs, MSMnt-En-Cents.MntInt AS MntMS, MSMnt-En-Cents.MONTANT AS MONTANTMS, ( CAST( Mnt-En-Euros.MONTANT AS INTEGER ) - CAST( MSMnt-En-Cents.MntInt AS INTEGER ) ) AS delta FROM Mnt-En-Euros INNER JOIN MSMnt-En-Cents ON Mnt-En-Euros.nmvt = MSMnt-En-Cents.nmvt WHERE CAST( Mnt-En-Euros.Mnt AS reel ) <> CAST( MSMnt-En-Cents.MONTANT AS reel ) OR Mnt-En-Euros.Type <> MSMnt-En-Cents.Type OR Mnt-En-Euros.MoisAbs <> MSMnt-En-Cents.MoisAbs'
+Query2='SELECT MvtReel.*, Types.*, Types.TYPE AS TType, Types.LIBELLE AS TLib FROM MvtReel LEFT OUTER JOIN Types ON Types.TYPE = MvtReel.TYPE ORDER BY NMvt ASC'
+
+#dbGetQuery(conn,Query1)
+MvtReel<-dbGetQuery(conn,Query2)
+#glimpse(MvtReel)
+# Get journal csv
+Journal_2020 <- read.csv(myCSV,header=TRUE,sep=';')
+Journal_2020$Montant<-as.numeric(as.character(Journal_2020$Montant))
+Journal_2020$DateDoc<-as.character(Journal_2020$DateDoc)
+#glimpse(Journal_2020)
+```
+```{r Prepare Data pour Trésorerie, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
+# on extrait les mvtreel positifs de 2020
+# et o,supprime un mvt-mauvaise technique
+MvtReel2020<-subset(MvtReel,MvtReel$AnReel=="2020" & MvtReel$MONTANT>0 & MvtReel$TYPE!="A11-Proximus")
+#
+Debits2020<-subset(Journal_2020,Journal_2020$Montant<0)
+# on groupe par Proprio et 
+groupColumns = c("TYPE","DateMvt")
+dataColumns = c("MONTANT")   #, "rbi","sb")
+GroupMvtReel2020 = ddply(MvtReel2020, groupColumns, function(x) colSums(x[dataColumns]))
+GroupMvtReel2020$Proprio<-as.factor(GroupMvtReel2020$TYPE)
+subset(GroupMvtReel2020, select=-c(TYPE))
+
+
+groupColumns = c("Proprio","DateDoc")
+dataColumns = c("Montant")   #, "rbi","sb")
+GroupDeb2020 = ddply(Debits2020, groupColumns, function(x) colSums(x[dataColumns]))
+
+
+
+
+
+```

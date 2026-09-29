@@ -1,0 +1,7 @@
+"0","myDB<-""/mnt/NewINPG/0-P3-Budget/Budget-DataBase-Paral/BudgetCoPro/db/BudgetCoPro.sql"""
+"0","library(DBI)"
+"0","library(RSQLite)"
+"0","myCSV=""Journal2020.csv"""
+"0",""
+"0",""
+"0",""

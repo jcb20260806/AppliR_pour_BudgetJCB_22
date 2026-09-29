@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="jcb" />
+
+
+<title>BUDGET-JCB - Overview v01 ven-09/10/2020 .</title>
+
+<script src="site_libs/header-attrs-2.3/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/pivottabler-binding-1.5.0/pivottabler.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">BUDGET-JCB - Overview v01 ven-09/10/2020 .</h1>
+<h4 class="author">jcb</h4>
+<h4 class="date">Document créé le 8/10/2020, mis à jour le ven-09/10/2020 .</h4>
+
+</div>
+
+
+<p>Fichier: rmd-Budget-jcb-First.Rmd</p>
+<pre><code>##  [1] &quot;TYPE&quot;         &quot;MONTANT&quot;      &quot;MoisAbs&quot;      &quot;DateMvt&quot;      &quot;DateVal&quot;     
+##  [6] &quot;Libelle&quot;      &quot;NMvt&quot;         &quot;NextNew&quot;      &quot;MoisReel&quot;     &quot;AnReel&quot;      
+## [11] &quot;MonBEF&quot;       &quot;Contrepartie&quot; &quot;IBAN&quot;         &quot;Libelle2&quot;     &quot;Libelle3&quot;    
+## [16] &quot;LL2&quot;          &quot;LL3&quot;</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["count(*)"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"4638"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre><code>## Rows: 4,638
+## Columns: 22
+## $ OriType      &lt;chr&gt; &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;RTT&quot;, &quot;JCB&quot;, &quot;TAC&quot;, &quot;SRB&quot;, …
+## $ MONTANT      &lt;dbl&gt; 7752, 6649, 1815, 1603, -11720, -2638, -1470, -609, -963…
+## $ MoisAbs      &lt;dbl&gt; 409, 409, 409, 409, 409, 409, 409, 409, 409, 409, 409, 4…
+## $ DateMvt      &lt;chr&gt; &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, …
+## $ DateVal      &lt;chr&gt; &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, &quot;2014/01/02&quot;, …
+## $ Libelle      &lt;chr&gt; &quot;OMNIMUT MUTUALITE LIBRE DE RUE NATALIS 47 B 4020       …
+## $ NMvt         &lt;chr&gt; &quot;2014.0001.00&quot;, &quot;2014.0002.00&quot;, &quot;2014.0003.00&quot;, &quot;2014.00…
+## $ NextNew      &lt;chr&gt; &quot;2013.010.00&quot;, &quot;2013.010.00&quot;, &quot;2013.010.00&quot;, &quot;2013.010.0…
+## $ MoisReel     &lt;chr&gt; &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;1&quot;, &quot;…
+## $ AnReel       &lt;chr&gt; &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, &quot;2014&quot;, …
+## $ MonBEF       &lt;chr&gt; &quot;3127&quot;, &quot;2682&quot;, &quot;732&quot;, &quot;647&quot;, &quot;-4728&quot;, &quot;-1064&quot;, &quot;-593&quot;, …
+## $ Contrepartie &lt;chr&gt; &quot;BE67340030841287&quot;, &quot;BE67340030841287&quot;, &quot;BE6734003084128…
+## $ IBAN         &lt;chr&gt; &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, &quot;???&quot;, …
+## $ Libelle2     &lt;chr&gt; &quot;OMNIMUTMUTUALITELIBREDERUENATALIS47B4020LIEGEBE67340030…
+## $ Libelle3     &lt;chr&gt; &quot;OMNIMUTMUTUALITELIBREDERUENATALIS47B4020LIEGEBE67340030…
+## $ LL2          &lt;chr&gt; &quot;166&quot;, &quot;166&quot;, &quot;166&quot;, &quot;166&quot;, &quot;154&quot;, &quot;78&quot;, &quot;127&quot;, &quot;124&quot;, &quot;…
+## $ LL3          &lt;chr&gt; &quot;166&quot;, &quot;166&quot;, &quot;166&quot;, &quot;166&quot;, &quot;154&quot;, &quot;78&quot;, &quot;127&quot;, &quot;124&quot;, &quot;…
+## $ TYPE         &lt;chr&gt; &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;RTT&quot;, &quot;JCB&quot;, &quot;TAC&quot;, &quot;SRB&quot;, …
+## $ PBM          &lt;chr&gt; &quot;af&quot;, &quot;af&quot;, &quot;af&quot;, &quot;af&quot;, &quot;av&quot;, &quot;av&quot;, &quot;af&quot;, &quot;z&quot;, &quot;av&quot;, &quot;af…
+## $ LIBELLE      &lt;chr&gt; &quot;Dentiste et Medecin&quot;, &quot;Dentiste et Medecin&quot;, &quot;Dentiste …
+## $ TType        &lt;chr&gt; &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;DEN&quot;, &quot;RTT&quot;, &quot;JCB&quot;, &quot;TAC&quot;, &quot;SRB&quot;, …
+## $ TLib         &lt;chr&gt; &quot;Dentiste et Medecin&quot;, &quot;Dentiste et Medecin&quot;, &quot;Dentiste …</code></pre>
+<div id="htmlwidget-d7789bbc8dc8c567560c" style="width:auto;height:auto;" class="pivottabler html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d7789bbc8dc8c567560c">{"x":{"tableCss":".Table {display: table; border-collapse: collapse; }\r\n.ColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.RowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.Cell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n.OutlineColumnHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px; text-align: center; }\r\n.OutlineRowHeader {font-family: Arial; font-size: 0.75em; border: 1px solid lightgray; vertical-align: middle; font-weight: bold; background-color: #F2F2F2; padding: 2px 8px 2px 2px; text-align: left; }\r\n.OutlineCell {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; background-color: #F8F8F8; font-weight: bold; }\r\n.Total {font-family: Arial; font-size: 0.75em; padding: 2px 2px 2px 8px; border: 1px solid lightgray; vertical-align: middle; text-align: right; }\r\n","tableHtml":"<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\" colspan=\"2\">&nbsp;<\/th>\n    <th class=\"ColumnHeader\" colspan=\"8\">2020<\/th>\n    <th class=\"ColumnHeader\">Total<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"ColumnHeader\">1<\/th>\n    <th class=\"ColumnHeader\">2<\/th>\n    <th class=\"ColumnHeader\">3<\/th>\n    <th class=\"ColumnHeader\">4<\/th>\n    <th class=\"ColumnHeader\">5<\/th>\n    <th class=\"ColumnHeader\">6<\/th>\n    <th class=\"ColumnHeader\">7<\/th>\n    <th class=\"ColumnHeader\">Total<\/th>\n    <th class=\"ColumnHeader\">&nbsp;<\/th>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"20\">af<\/th>\n    <th class=\"RowHeader\">AIV<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-300.13<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-300.13<\/td>\n    <td class=\"Total\">-300.13<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ALE<\/th>\n    <td class=\"Cell\">-130.00<\/td>\n    <td class=\"Cell\">-74.97<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\">-148.49<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-798.93<\/td>\n    <td class=\"Total\">-798.93<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ALI<\/th>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Cell\">-1300.00<\/td>\n    <td class=\"Total\">-9100.00<\/td>\n    <td class=\"Total\">-9100.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">AMB<\/th>\n    <td class=\"Cell\">-126.01<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-221.91<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-347.92<\/td>\n    <td class=\"Total\">-347.92<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CRI<\/th>\n    <td class=\"Cell\">-120.00<\/td>\n    <td class=\"Cell\">-120.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-240.00<\/td>\n    <td class=\"Total\">-240.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">DEN<\/th>\n    <td class=\"Cell\">-55.46<\/td>\n    <td class=\"Cell\">-49.16<\/td>\n    <td class=\"Cell\">-64.59<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">7.18<\/td>\n    <td class=\"Cell\">22.78<\/td>\n    <td class=\"Cell\">-50.31<\/td>\n    <td class=\"Total\">-189.56<\/td>\n    <td class=\"Total\">-189.56<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">EAU<\/th>\n    <td class=\"Cell\">-60.73<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-142.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-202.73<\/td>\n    <td class=\"Total\">-202.73<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ENT<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-70.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-70.00<\/td>\n    <td class=\"Total\">-70.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ESP<\/th>\n    <td class=\"Cell\">-34.30<\/td>\n    <td class=\"Cell\">-39.09<\/td>\n    <td class=\"Cell\">-28.51<\/td>\n    <td class=\"Cell\">-19.61<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-23.36<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-144.87<\/td>\n    <td class=\"Total\">-144.87<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">EST<\/th>\n    <td class=\"Cell\">-98.89<\/td>\n    <td class=\"Cell\">-99.61<\/td>\n    <td class=\"Cell\">-38.01<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-32.30<\/td>\n    <td class=\"Cell\">-42.31<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-311.12<\/td>\n    <td class=\"Total\">-311.12<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">GGC<\/th>\n    <td class=\"Cell\">-4.90<\/td>\n    <td class=\"Cell\">10.88<\/td>\n    <td class=\"Cell\">-4.90<\/td>\n    <td class=\"Cell\">-4.90<\/td>\n    <td class=\"Cell\">-13.62<\/td>\n    <td class=\"Cell\">-4.90<\/td>\n    <td class=\"Cell\">-4.90<\/td>\n    <td class=\"Total\">-27.24<\/td>\n    <td class=\"Total\">-27.24<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">HOS<\/th>\n    <td class=\"Cell\">-1180.62<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-1180.62<\/td>\n    <td class=\"Total\">-1180.62<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">MUT<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-33.75<\/td>\n    <td class=\"Total\">-101.25<\/td>\n    <td class=\"Total\">-101.25<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">PHA<\/th>\n    <td class=\"Cell\">-110.60<\/td>\n    <td class=\"Cell\">-32.85<\/td>\n    <td class=\"Cell\">-212.83<\/td>\n    <td class=\"Cell\">-63.15<\/td>\n    <td class=\"Cell\">-58.90<\/td>\n    <td class=\"Cell\">-181.95<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-660.28<\/td>\n    <td class=\"Total\">-660.28<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">PRE<\/th>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Total\">-350.00<\/td>\n    <td class=\"Total\">-350.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RCP<\/th>\n    <td class=\"Cell\">-44.79<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\">-45.87<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-274.14<\/td>\n    <td class=\"Total\">-274.14<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RCT<\/th>\n    <td class=\"Cell\">-74.80<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-149.60<\/td>\n    <td class=\"Cell\">-74.80<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-149.60<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-448.80<\/td>\n    <td class=\"Total\">-448.80<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">TAC<\/th>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Cell\">-16.70<\/td>\n    <td class=\"Total\">-116.90<\/td>\n    <td class=\"Total\">-116.90<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">TRV<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-437.45<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-437.45<\/td>\n    <td class=\"Total\">-437.45<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">-3407.80<\/td>\n    <td class=\"Total\">-2151.25<\/td>\n    <td class=\"Total\">-2059.50<\/td>\n    <td class=\"Total\">-1979.18<\/td>\n    <td class=\"Total\">-1658.70<\/td>\n    <td class=\"Total\">-2589.85<\/td>\n    <td class=\"Total\">-1455.66<\/td>\n    <td class=\"Total\">-15301.94<\/td>\n    <td class=\"Total\">-15301.94<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"17\">av<\/th>\n    <th class=\"RowHeader\">COX<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-200.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-200.00<\/td>\n    <td class=\"Total\">-200.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CRF<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-163.92<\/td>\n    <td class=\"Cell\">-264.75<\/td>\n    <td class=\"Cell\">-11.67<\/td>\n    <td class=\"Total\">-440.34<\/td>\n    <td class=\"Total\">-440.34<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ETE<\/th>\n    <td class=\"Cell\">-358.73<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-358.73<\/td>\n    <td class=\"Total\">-358.73<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">GSJ<\/th>\n    <td class=\"Cell\">-24.36<\/td>\n    <td class=\"Cell\">-48.39<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-20.60<\/td>\n    <td class=\"Cell\">-28.44<\/td>\n    <td class=\"Cell\">-28.33<\/td>\n    <td class=\"Cell\">-20.46<\/td>\n    <td class=\"Total\">-170.58<\/td>\n    <td class=\"Total\">-170.58<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">GSM<\/th>\n    <td class=\"Cell\">-20.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-40.97<\/td>\n    <td class=\"Cell\">-20.00<\/td>\n    <td class=\"Cell\">-20.00<\/td>\n    <td class=\"Cell\">-20.00<\/td>\n    <td class=\"Cell\">-20.00<\/td>\n    <td class=\"Total\">-140.97<\/td>\n    <td class=\"Total\">-140.97<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">JAR<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-280.23<\/td>\n    <td class=\"Cell\">-61.50<\/td>\n    <td class=\"Cell\">-14.73<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-356.46<\/td>\n    <td class=\"Total\">-356.46<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">JCB<\/th>\n    <td class=\"Cell\">-577.48<\/td>\n    <td class=\"Cell\">-448.76<\/td>\n    <td class=\"Cell\">-281.27<\/td>\n    <td class=\"Cell\">-79.21<\/td>\n    <td class=\"Cell\">-474.28<\/td>\n    <td class=\"Cell\">-165.03<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-2026.03<\/td>\n    <td class=\"Total\">-2026.03<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">MA2<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-661.92<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-661.92<\/td>\n    <td class=\"Total\">-661.92<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">MAG<\/th>\n    <td class=\"Cell\">-85.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-85.00<\/td>\n    <td class=\"Total\">-85.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">MAI<\/th>\n    <td class=\"Cell\">-96.84<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-28.12<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-47.72<\/td>\n    <td class=\"Cell\">-455.91<\/td>\n    <td class=\"Cell\">-72.94<\/td>\n    <td class=\"Total\">-701.53<\/td>\n    <td class=\"Total\">-701.53<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">MEN<\/th>\n    <td class=\"Cell\">-46.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-42.78<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-76.75<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-165.53<\/td>\n    <td class=\"Total\">-165.53<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ORD<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-3.94<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-114.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-117.94<\/td>\n    <td class=\"Total\">-117.94<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RES<\/th>\n    <td class=\"Cell\">-202.60<\/td>\n    <td class=\"Cell\">-341.05<\/td>\n    <td class=\"Cell\">-60.90<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-604.55<\/td>\n    <td class=\"Total\">-604.55<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RTT<\/th>\n    <td class=\"Cell\">-97.77<\/td>\n    <td class=\"Cell\">-97.07<\/td>\n    <td class=\"Cell\">-94.61<\/td>\n    <td class=\"Cell\">-95.43<\/td>\n    <td class=\"Cell\">-93.79<\/td>\n    <td class=\"Cell\">-97.89<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-576.56<\/td>\n    <td class=\"Total\">-576.56<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">TEN<\/th>\n    <td class=\"Cell\">-566.94<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-566.94<\/td>\n    <td class=\"Total\">-566.94<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">VIF<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-1.00<\/td>\n    <td class=\"Cell\">-15.00<\/td>\n    <td class=\"Total\">-16.00<\/td>\n    <td class=\"Total\">-16.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">-2075.72<\/td>\n    <td class=\"Total\">-1597.19<\/td>\n    <td class=\"Total\">-552.59<\/td>\n    <td class=\"Total\">-495.47<\/td>\n    <td class=\"Total\">-889.65<\/td>\n    <td class=\"Total\">-1438.39<\/td>\n    <td class=\"Total\">-140.07<\/td>\n    <td class=\"Total\">-7189.08<\/td>\n    <td class=\"Total\">-7189.08<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"4\">b<\/th>\n    <th class=\"RowHeader\">PER<\/th>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-300.00<\/td>\n    <td class=\"Total\">-300.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">PES<\/th>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\">-50.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-300.00<\/td>\n    <td class=\"Total\">-300.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RAP<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-300.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-300.00<\/td>\n    <td class=\"Total\">-300.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">-100.00<\/td>\n    <td class=\"Total\">-100.00<\/td>\n    <td class=\"Total\">-100.00<\/td>\n    <td class=\"Total\">-100.00<\/td>\n    <td class=\"Total\">-100.00<\/td>\n    <td class=\"Total\">-400.00<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">-900.00<\/td>\n    <td class=\"Total\">-900.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"13\">be<\/th>\n    <th class=\"RowHeader\">APG11<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Total\">450.00<\/td>\n    <td class=\"Total\">450.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APG12<\/th>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Total\">525.00<\/td>\n    <td class=\"Total\">525.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APG8<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">75.00<\/td>\n    <td class=\"Cell\">150.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">450.00<\/td>\n    <td class=\"Total\">450.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APL1<\/th>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Cell\">900.00<\/td>\n    <td class=\"Total\">6300.00<\/td>\n    <td class=\"Total\">6300.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APL2<\/th>\n    <td class=\"Cell\">875.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Cell\">800.00<\/td>\n    <td class=\"Total\">5675.00<\/td>\n    <td class=\"Total\">5675.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APR1<\/th>\n    <td class=\"Cell\">-103.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-103.00<\/td>\n    <td class=\"Total\">-103.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">APR2<\/th>\n    <td class=\"Cell\">-102.47<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-102.47<\/td>\n    <td class=\"Total\">-102.47<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CAPT21<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-794.21<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-114.18<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-908.39<\/td>\n    <td class=\"Total\">-908.39<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CAPT23<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-582.41<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-83.74<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-666.15<\/td>\n    <td class=\"Total\">-666.15<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CPKG08<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-74.30<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-10.68<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-84.98<\/td>\n    <td class=\"Total\">-84.98<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CPKG11<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-81.11<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-11.65<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-92.76<\/td>\n    <td class=\"Total\">-92.76<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">CPKG12<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-80.43<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-11.57<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-92.00<\/td>\n    <td class=\"Total\">-92.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">1644.53<\/td>\n    <td class=\"Total\">2000.00<\/td>\n    <td class=\"Total\">312.54<\/td>\n    <td class=\"Total\">1850.00<\/td>\n    <td class=\"Total\">1925.00<\/td>\n    <td class=\"Total\">1768.18<\/td>\n    <td class=\"Total\">1850.00<\/td>\n    <td class=\"Total\">11350.25<\/td>\n    <td class=\"Total\">11350.25<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\">c<\/th>\n    <th class=\"RowHeader\">ONP<\/th>\n    <td class=\"Cell\">2188.06<\/td>\n    <td class=\"Cell\">2188.06<\/td>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\">3243.51<\/td>\n    <td class=\"Cell\">2217.36<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">14271.71<\/td>\n    <td class=\"Total\">14271.71<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">2188.06<\/td>\n    <td class=\"Total\">2188.06<\/td>\n    <td class=\"Total\">2217.36<\/td>\n    <td class=\"Total\">2217.36<\/td>\n    <td class=\"Total\">3243.51<\/td>\n    <td class=\"Total\">2217.36<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">14271.71<\/td>\n    <td class=\"Total\">14271.71<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"3\">f<\/th>\n    <th class=\"RowHeader\">NANSUC<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">1919.14<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">1919.14<\/td>\n    <td class=\"Total\">1919.14<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">RAC<\/th>\n    <td class=\"Cell\">-10.43<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">97.33<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">86.90<\/td>\n    <td class=\"Total\">86.90<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">-10.43<\/td>\n    <td class=\"Total\">1919.14<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">97.33<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">2006.04<\/td>\n    <td class=\"Total\">2006.04<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"4\">tr<\/th>\n    <th class=\"RowHeader\">EPJ<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">-1400.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">-1400.00<\/td>\n    <td class=\"Total\">-1400.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">ERR<\/th>\n    <td class=\"Cell\">0.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">0.00<\/td>\n    <td class=\"Total\">0.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">REX<\/th>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Cell\">240.00<\/td>\n    <td class=\"Cell\"><\/td>\n    <td class=\"Total\">240.00<\/td>\n    <td class=\"Total\">240.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <td class=\"Total\">0.00<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">-1400.00<\/td>\n    <td class=\"Total\">240.00<\/td>\n    <td class=\"Total\"><\/td>\n    <td class=\"Total\">-1160.00<\/td>\n    <td class=\"Total\">-1160.00<\/td>\n  <\/tr>\n  <tr>\n    <th class=\"RowHeader\">Total<\/th>\n    <th class=\"RowHeader\">&nbsp;<\/th>\n    <td class=\"Total\">-1761.36<\/td>\n    <td class=\"Total\">2258.76<\/td>\n    <td class=\"Total\">-182.19<\/td>\n    <td class=\"Total\">1492.71<\/td>\n    <td class=\"Total\">1120.16<\/td>\n    <td class=\"Total\">-105.37<\/td>\n    <td class=\"Total\">254.27<\/td>\n    <td class=\"Total\">3076.98<\/td>\n    <td class=\"Total\">3076.98<\/td>\n  <\/tr>\n<\/table>","settings":[]},"evals":[],"jsHooks":[]}</script>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

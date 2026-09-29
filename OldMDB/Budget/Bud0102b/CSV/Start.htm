@@ -1,0 +1,33 @@
+
+
+<HTML>
+<HEAD>
+	<TITLE>pc banking</TITLE>
+	<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+</HEAD>
+
+<frameset COLS="183,*" FRAMEBORDER="no" BORDER="0" FRAMESPACING="0">
+	
+	<!-- eerste kolom : blok hoofding + SubMenu -->
+	<frame name="intra_Nav" scrolling="no" src="Intra_nav_home.asp?UserLanguage=E&Environment=FORTIS-ONLINE" marginheight="0" marginwidth="0">
+		
+	<!-- tweede kolom : vier rijen : bovenmenu en filler + content + + contentfooter + footer met kleur -->
+	<frameset rows="57,*,15" FRAMEBORDER="no" BORDER="0" FRAMESPACING="0">
+		<frameset cols="600,*" FRAMEBORDER="no" BORDER="0" FRAMESPACING="0">
+			<frame name="inter_nav" scrolling="no" noresize marginheight="0" marginwidth="0" src="Inter_Nav_home.asp?UserLanguage=E&Environment=FORTIS-ONLINE">
+			<frame name="Filler" scrolling="no" noresize marginheight="0" marginwidth="0" src="Filler.htm">
+		</frameset>
+		<frame name="content" marginheight="0" marginwidth="0" src="Frames.asp?Page=Home_Logon&Rows=0&UserLanguage=E&Environment=FORTIS-ONLINE">
+		<frame name="bottom" scrolling="no" noresize marginheight="0" marginwidth="0" 	src="Footer.htm">
+	</frameset>
+</frameset>
+
+</HTML>
+<script LANGUAGE="JAVASCRIPT">
+function SubmitMe()
+{
+var x;
+	x=document.Logon;
+	x.submit();
+}
+</script>
