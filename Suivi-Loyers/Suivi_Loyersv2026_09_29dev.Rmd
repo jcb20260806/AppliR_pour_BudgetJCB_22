@@ -27,6 +27,8 @@ rm(list = ls())          # Supprime tous les objets
 graphics.off()           # Ferme toutes les fenêtres de graphique
 #cat("\014")              # Nettoie la console (équivalent de Ctrl+L)
 g <- getwd()
+print("Current Working Directory")
+print (g )
 LibDir <- "./ModulesR"
 
 source(file.path(LibDir , "GetLoyer.R"))
