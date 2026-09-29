@@ -103,7 +103,9 @@ return (Table)
 
 
 ```{r Generate_Result_par_Lot, echo=FALSE,eval=TRUE,message=FALSE,warning=FALSE}
-ListOfLots <- as.data.frame(table(AllLoyers$Lot))
+ListOfLotLocs <- as.data.frame(table(AllLoyers$LotLoc))
+ListOfLotLocs <- AllLoyers %>% filter (is.na(DateFin))
+
 jcbEssers <- jcbIndexation("Essers","App21")
 (jcbEssers)
-
+```
